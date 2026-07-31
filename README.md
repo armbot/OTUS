@@ -1,1 +1,1 @@
-# OTUS
+# OTUS education courses

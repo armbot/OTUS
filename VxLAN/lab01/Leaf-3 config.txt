@@ -1,0 +1,33 @@
+hostname Leaf-3
+!
+interface Ethernet1
+   description to-Spine-1
+   no switchport
+   ip address 10.0.3.0/31
+!
+interface Ethernet2
+   description to-Spine-2
+   no switchport
+   ip address 10.0.3.2/31
+!
+interface Loopback0
+   description Router-ID
+   ip address 172.16.0.5/32
+!
+ip routing
+!
+router bgp 65000
+   router-id 172.16.0.5
+   no bgp default ipv4-unicast
+   maximum-paths 8 ecmp 8
+   neighbor 10.0.3.1 remote-as 65000
+   neighbor 10.0.3.1 description Spine-1_Underlay
+   neighbor 10.0.3.3 remote-as 65000
+   neighbor 10.0.3.3 description Spine-2_Underlay
+   !
+   address-family ipv4
+      neighbor 10.0.3.1 activate
+      neighbor 10.0.3.3 activate
+      network 172.16.0.5/32
+!
+end

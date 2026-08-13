@@ -1,0 +1,47 @@
+hostname Spine-1
+!
+interface Ethernet1
+   description to-Leaf-1
+   no switchport
+   ip address 10.0.1.1/31
+!
+interface Ethernet2
+   description to-Leaf-2
+   no switchport
+   ip address 10.0.2.1/31
+!
+interface Ethernet3
+   description to-Leaf-3
+   no switchport
+   ip address 10.0.3.1/31
+!
+interface Loopback0
+   description Router-ID
+   ip address 172.16.0.1/32
+!
+ip routing
+!
+router bgp 65000
+   router-id 172.16.0.1
+   no bgp default ipv4-unicast
+   maximum-paths 8 ecmp 8
+   neighbor 10.0.1.0 remote-as 65000
+   neighbor 10.0.1.0 next-hop-self
+   neighbor 10.0.1.0 description Leaf-1_Underlay
+   neighbor 10.0.1.0 route-reflector-client
+   neighbor 10.0.2.0 remote-as 65000
+   neighbor 10.0.2.0 next-hop-self
+   neighbor 10.0.2.0 description Leaf-2_Underlay
+   neighbor 10.0.2.0 route-reflector-client
+   neighbor 10.0.3.0 remote-as 65000
+   neighbor 10.0.3.0 next-hop-self
+   neighbor 10.0.3.0 description Leaf-3_Underlay
+   neighbor 10.0.3.0 route-reflector-client
+   !
+   address-family ipv4
+      neighbor 10.0.1.0 activate
+      neighbor 10.0.2.0 activate
+      neighbor 10.0.3.0 activate
+      network 172.16.0.1/32
+!
+end

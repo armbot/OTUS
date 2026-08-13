@@ -5,4 +5,4 @@
 
 ### Схема стенда
 
-![lab1_scheme.jpeg](lab1_scheme.jpeg)
+![lab1_scheme.jpg](lab1_scheme.jpg)

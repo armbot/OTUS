@@ -7,7 +7,7 @@
 
 ![lab1_scheme.jpg](lab1_scheme.jpg)
 
-### Таблица адресов Loopback-ов
+### Таблица IP-адресов Loopback-ов
 
 |Device|Interface|IP Address|
 |---|---|---|
@@ -17,7 +17,7 @@ Leaf-1|loopback 0|172.16.0.3/32
 Leaf-2|loopback 0|172.16.0.4/32
 Leaf-3|loopback 0|172.16.0.5/32
 
-### Таблица адресов P2P-сетей
+### Таблица IP-адресов P2P-сетей
 
 |Линк|IP Лифа|IP Спайна|Подсеть /31|
 |---|---|---|---|

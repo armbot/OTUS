@@ -40,6 +40,8 @@ Leaf-3 → Spine-2|10.0.3.2/31|10.0.3.3/31|10.0.3.2/31
 
 ```
 !
+hostname Spine-1
+!
 interface Ethernet1
    description to-Leaf-1
    mtu 9214
@@ -73,6 +75,170 @@ ip routing
 !
 router ospf 1
    router-id 172.16.0.1
+   max-lsa 12000
+!
+end
+```
+</details>
+<details>
+<summary> Spine-2 </summary>
+
+```
+!
+hostname Spine-2
+!
+spanning-tree mode mstp
+!
+interface Ethernet1
+   description to-Leaf-1
+   mtu 9214
+   no switchport
+   ip address 10.0.1.3/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Ethernet2
+   description to-Leaf-2
+   mtu 9214
+   no switchport
+   ip address 10.0.2.3/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Ethernet3
+   description to-Leaf-3
+   mtu 9214
+   no switchport
+   ip address 10.0.3.3/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Loopback0
+   description Router-ID
+   ip address 172.16.0.2/32
+   ip ospf area 0.0.0.0
+!
+ip routing
+!
+router ospf 1
+   router-id 172.16.0.2
+   max-lsa 12000
+!
+end
+```
+</details>
+<details>
+<summary> Leaf-1 </summary>
+
+```
+!
+hostname Leaf-1
+!
+spanning-tree mode mstp
+!
+interface Ethernet1
+   description to-Spine-1
+   mtu 9214
+   no switchport
+   ip address 10.0.1.0/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Ethernet2
+   description to-Spine-2
+   mtu 9214
+   no switchport
+   ip address 10.0.1.2/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Loopback0
+   description Router-ID
+   ip address 172.16.0.3/32
+   ip ospf area 0.0.0.0
+!
+ip routing
+!
+router ospf 1
+   router-id 172.16.0.3
+   max-lsa 12000
+!
+end
+```
+</details>
+<details>
+<summary> Leaf-2 </summary>
+
+```
+!
+hostname Leaf-2
+!
+spanning-tree mode mstp
+!
+interface Ethernet1
+   description to-Spine-1
+   mtu 9214
+   no switchport
+   ip address 10.0.2.0/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Ethernet2
+   description to-Spine-2
+   mtu 9214
+   no switchport
+   ip address 10.0.2.2/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Loopback0
+   description Router-ID
+   ip address 172.16.0.4/32
+   ip ospf area 0.0.0.0
+!
+ip routing
+!
+router ospf 1
+   router-id 172.16.0.4
+   max-lsa 12000
+!
+end
+```
+</details>
+<details>
+<summary> Leaf-3 </summary>
+
+```
+!
+hostname Leaf-3
+!
+spanning-tree mode mstp
+!
+interface Ethernet1
+   description to-Spine-1
+   mtu 9214
+   no switchport
+   ip address 10.0.3.0/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Ethernet2
+   description to-Spine-2
+   mtu 9214
+   no switchport
+   ip address 10.0.3.2/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Loopback0
+   description Router-ID
+   ip address 172.16.0.5/32
+   ip ospf area 0.0.0.0
+!
+ip routing
+!
+router ospf 1
+   router-id 172.16.0.5
    max-lsa 12000
 !
 end

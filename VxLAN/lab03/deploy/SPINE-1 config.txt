@@ -1,0 +1,43 @@
+hostname Spine-1
+!
+interface Ethernet1
+   description to-Leaf-1
+   mtu 9000
+   no switchport
+   ip address 10.0.1.1/31
+   isis enable UNDERLAY
+   isis circuit-type level-1
+   isis network point-to-point
+!
+interface Ethernet2
+   description to-Leaf-2
+   mtu 9000
+   no switchport
+   ip address 10.0.2.1/31
+   isis enable UNDERLAY
+   isis circuit-type level-1
+   isis network point-to-point
+!
+interface Ethernet3
+   description to-Leaf-3
+   mtu 9000
+   no switchport
+   ip address 10.0.3.1/31
+   isis enable UNDERLAY
+   isis circuit-type level-1
+   isis network point-to-point
+!
+interface Loopback0
+   description Router-ID
+   ip address 172.16.0.1/32
+   isis enable UNDERLAY
+   isis passive
+!
+ip routing
+!
+router isis UNDERLAY
+   net 49.0001.1111.1111.1111.00
+   !
+   address-family ipv4 unicast
+!
+end

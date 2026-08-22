@@ -34,48 +34,52 @@ Leaf-2 → Spine-2|10.0.2.2/31|10.0.2.3/31|10.0.2.2/31
 Leaf-3 → Spine-1|10.0.3.0/31|10.0.3.1/31|10.0.3.0/31
 Leaf-3 → Spine-2|10.0.3.2/31|10.0.3.3/31|10.0.3.2/31
 
-### Настройка OSPF
+### Настройка ISIS
 <details>
 <summary> Spine-1 </summary>
 
 ```
-!
 hostname Spine-1
 !
 interface Ethernet1
    description to-Leaf-1
-   mtu 9214
+   mtu 9000
    no switchport
    ip address 10.0.1.1/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis circuit-type level-1
+   isis network point-to-point
 !
 interface Ethernet2
    description to-Leaf-2
-   mtu 9214
+   mtu 9000
    no switchport
    ip address 10.0.2.1/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis circuit-type level-1
+   isis network point-to-point
 !
 interface Ethernet3
    description to-Leaf-3
-   mtu 9214
+   mtu 9000
    no switchport
    ip address 10.0.3.1/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis circuit-type level-1
+   isis network point-to-point
 !
 interface Loopback0
    description Router-ID
    ip address 172.16.0.1/32
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis passive
 !
 ip routing
 !
-router ospf 1
-   router-id 172.16.0.1
-   max-lsa 12000
+router isis UNDERLAY
+   net 49.0001.1111.1111.1111.00
+   !
+   address-family ipv4 unicast
 !
 end
 ```
@@ -84,45 +88,46 @@ end
 <summary> Spine-2 </summary>
 
 ```
-!
 hostname Spine-2
-!
-spanning-tree mode mstp
 !
 interface Ethernet1
    description to-Leaf-1
-   mtu 9214
+   mtu 9000
    no switchport
    ip address 10.0.1.3/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis circuit-type level-1
+   isis network point-to-point
 !
 interface Ethernet2
    description to-Leaf-2
-   mtu 9214
+   mtu 9000
    no switchport
    ip address 10.0.2.3/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis circuit-type level-1
+   isis network point-to-point
 !
 interface Ethernet3
    description to-Leaf-3
-   mtu 9214
+   mtu 9000
    no switchport
    ip address 10.0.3.3/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis circuit-type level-1
+   isis network point-to-point
 !
 interface Loopback0
    description Router-ID
    ip address 172.16.0.2/32
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
 !
 ip routing
 !
-router ospf 1
-   router-id 172.16.0.2
-   max-lsa 12000
+router isis UNDERLAY
+   net 49.0001.2222.2222.2222.00
+   !
+   address-family ipv4 unicast
 !
 end
 ```
@@ -131,37 +136,36 @@ end
 <summary> Leaf-1 </summary>
 
 ```
-!
 hostname Leaf-1
-!
-spanning-tree mode mstp
 !
 interface Ethernet1
    description to-Spine-1
-   mtu 9214
+   mtu 9000
    no switchport
    ip address 10.0.1.0/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis circuit-type level-1
+   isis network point-to-point
 !
 interface Ethernet2
    description to-Spine-2
-   mtu 9214
+   mtu 9000
    no switchport
    ip address 10.0.1.2/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis circuit-type level-1
 !
 interface Loopback0
    description Router-ID
    ip address 172.16.0.3/32
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
 !
 ip routing
 !
-router ospf 1
-   router-id 172.16.0.3
-   max-lsa 12000
+router isis UNDERLAY
+   net 49.0001.0001.0001.0001.00
+   !
+   address-family ipv4 unicast
 !
 end
 ```
@@ -170,37 +174,38 @@ end
 <summary> Leaf-2 </summary>
 
 ```
-!
 hostname Leaf-2
-!
-spanning-tree mode mstp
 !
 interface Ethernet1
    description to-Spine-1
-   mtu 9214
+   mtu 9000
    no switchport
    ip address 10.0.2.0/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis circuit-type level-1
+   isis network point-to-point
 !
 interface Ethernet2
    description to-Spine-2
-   mtu 9214
+   mtu 9000
    no switchport
    ip address 10.0.2.2/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis circuit-type level-1
+   isis network point-to-point
 !
 interface Loopback0
    description Router-ID
    ip address 172.16.0.4/32
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis passive
 !
 ip routing
 !
-router ospf 1
-   router-id 172.16.0.4
-   max-lsa 12000
+router isis UNDERLAY
+   net 49.0001.0002.0002.0002.00
+   !
+   address-family ipv4 unicast
 !
 end
 ```
@@ -209,43 +214,44 @@ end
 <summary> Leaf-3 </summary>
 
 ```
-!
 hostname Leaf-3
-!
-spanning-tree mode mstp
 !
 interface Ethernet1
    description to-Spine-1
-   mtu 9214
+   mtu 9000
    no switchport
    ip address 10.0.3.0/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis circuit-type level-1
+   isis network point-to-point
 !
 interface Ethernet2
    description to-Spine-2
-   mtu 9214
+   mtu 9000
    no switchport
    ip address 10.0.3.2/31
-   ip ospf network point-to-point
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis circuit-type level-1
+   isis network point-to-point
 !
 interface Loopback0
    description Router-ID
    ip address 172.16.0.5/32
-   ip ospf area 0.0.0.0
+   isis enable UNDERLAY
+   isis passive
 !
 ip routing
 !
-router ospf 1
-   router-id 172.16.0.5
-   max-lsa 12000
+router isis UNDERLAY
+   net 49.0001.0003.0003.0003.00
+   !
+   address-family ipv4 unicast
 !
 end
 ```
 </details>
 
-### Проверка работы протокола OSPF
+### Проверка работы протокола ISIS
 #### Leaf-1
 ```
 Leaf-1#show ip ospf neighbor 

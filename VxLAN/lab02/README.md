@@ -34,6 +34,51 @@ Leaf-2 → Spine-2|10.0.2.2/31|10.0.2.3/31|10.0.2.2/31
 Leaf-3 → Spine-1|10.0.3.0/31|10.0.3.1/31|10.0.3.0/31
 Leaf-3 → Spine-2|10.0.3.2/31|10.0.3.3/31|10.0.3.2/31
 
+### Настройка OSPF
+<details>
+<summary> Spine-1 </summary>
+
+```
+!
+interface Ethernet1
+   description to-Leaf-1
+   mtu 9214
+   no switchport
+   ip address 10.0.1.1/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Ethernet2
+   description to-Leaf-2
+   mtu 9214
+   no switchport
+   ip address 10.0.2.1/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Ethernet3
+   description to-Leaf-3
+   mtu 9214
+   no switchport
+   ip address 10.0.3.1/31
+   ip ospf network point-to-point
+   ip ospf area 0.0.0.0
+!
+interface Loopback0
+   description Router-ID
+   ip address 172.16.0.1/32
+   ip ospf area 0.0.0.0
+!
+ip routing
+!
+router ospf 1
+   router-id 172.16.0.1
+   max-lsa 12000
+!
+end
+```
+</details>
+
 ### Проверка работы протокола OSPF
 #### Leaf-1
 ```

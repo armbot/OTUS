@@ -1,2 +1,2 @@
 ### OTUS education courses:
- - [Дизайн сетей ЦОД](VxLAN/)
+ - [Дизайн сетей ЦОД. VxLAN](VxLAN/)

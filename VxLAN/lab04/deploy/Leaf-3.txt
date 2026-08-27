@@ -1,0 +1,43 @@
+hostname Leaf-3
+!
+spanning-tree mode mstp
+!
+interface Ethernet1
+   description to-Spine-1
+   mtu 9000
+   no switchport
+   ip address 10.0.3.0/31
+   bfd interval 100 min-rx 100 multiplier 3
+!
+interface Ethernet2
+   description to-Spine-2
+   mtu 9000
+   no switchport
+   ip address 10.0.3.2/31
+   bfd interval 100 min-rx 100 multiplier 3
+!
+interface Loopback0
+   description Router-ID
+   ip address 172.16.0.5/32
+!
+ip routing
+!
+route-map REDISTRIBUTE_ONLY_LOOPBACKS permit 10
+   match interface Loopback0
+!
+router bgp 65000
+   router-id 172.16.0.5
+   no bgp default ipv4-unicast
+   maximum-paths 8 ecmp 8
+   neighbor SPINE peer group
+   neighbor SPINE remote-as 65000
+   neighbor SPINE bfd
+   neighbor SPINE password 7 p1iGcmS72bggHzKQpAB8dA==
+   neighbor 10.0.3.1 peer group SPINE
+   neighbor 10.0.3.3 peer group SPINE
+   !
+   address-family ipv4
+      neighbor SPINE activate
+      redistribute connected route-map REDISTRIBUTE_ONLY_LOOPBACKS
+!
+end

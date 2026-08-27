@@ -296,38 +296,49 @@ end
 ### Проверка работы протокола iBGP
 #### Leaf-1
 ```
-Leaf-1#show isis neighbors 
-Instance  VRF      System Id        Type Interface          SNPA              State Hold time   Circuit Id          
-UNDERLAY  default  Spine-1          L1   Ethernet1          P2P               UP    22          0E                  
-UNDERLAY  default  Spine-2          L1   Ethernet2          P2P               UP    28          0E  
+Leaf-1#show ip bgp summary 
+BGP summary information for VRF default
+Router identifier 172.16.0.3, local AS number 65000
+Neighbor Status Codes: m - Under maintenance
+  Neighbor V AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
+  10.0.1.1 4 65000             85        80    0    0 00:04:07 Estab   2      2
+  10.0.1.3 4 65000             77        75    0    0 00:00:07 Estab   2      2
 ```
 ```
-Leaf-1#show isis database 
-IS-IS Instance: UNDERLAY VRF: default
-  IS-IS Level 1 Link State Database
-    LSPID                   Seq Num  Cksum  Life Length IS Flags
-    Leaf-1.00-00                  7  42142  1182    122 L2 <>
-    Leaf-2.00-00                  9  11274  1188    122 L2 <>
-    Leaf-3.00-00                  8   3104   613    122 L2 <>
-    Spine-1.00-00                15  40816   341    147 L2 <>
-    Spine-2.00-00                10  58043   550    147 L2 <>
-  IS-IS Level 2 Link State Database
-    LSPID                   Seq Num  Cksum  Life Length IS Flags
-    Leaf-1.00-00                 13    791  1127    164 L2 <>
-```
-```
-Leaf-1#show ip route isis
+Leaf-1#show ip route bgp 
 
- I L1     10.0.2.0/31 [115/20] via 10.0.1.1, Ethernet1
- I L1     10.0.2.2/31 [115/20] via 10.0.1.3, Ethernet2
- I L1     10.0.3.0/31 [115/20] via 10.0.1.1, Ethernet1
- I L1     10.0.3.2/31 [115/20] via 10.0.1.3, Ethernet2
- I L1     172.16.0.1/32 [115/20] via 10.0.1.1, Ethernet1
- I L1     172.16.0.2/32 [115/20] via 10.0.1.3, Ethernet2
- I L1     172.16.0.4/32 [115/30] via 10.0.1.1, Ethernet1
-                                 via 10.0.1.3, Ethernet2
- I L1     172.16.0.5/32 [115/30] via 10.0.1.1, Ethernet1
-                                 via 10.0.1.3, Ethernet2
+ B I      172.16.0.4/32 [200/0] via 10.0.1.1, Ethernet1
+                                via 10.0.1.3, Ethernet2
+ B I      172.16.0.5/32 [200/0] via 10.0.1.1, Ethernet1
+                                via 10.0.1.3, Ethernet2
+```
+### Проверка работы протокола BFD
+#### Leaf-1
+```
+Leaf-1#show bfd peers 
+VRF name: default
+-----------------
+DstAddr       MyDisc    YourDisc  Interface/Transport    Type           LastUp 
+--------- ----------- ----------- -------------------- ------- ----------------
+10.0.1.1  1025628936  1557984869        Ethernet1(14)  normal   08/27/26 13:24 
+10.0.1.3   604765614  1187943764        Ethernet2(15)  normal   08/27/26 13:25 
+
+         LastDown            LastDiag    State
+-------------------- ------------------- -----
+   08/27/26 13:24       No Diagnostic       Up
+   08/27/26 13:25       No Diagnostic       Up
+```
+```
+Leaf-1#show ip bgp neighbors bfd
+BGP BFD Neighbor Table
+Flags: U - BFD is enabled for BGP neighbor and BFD session state is UP
+       I - BFD is enabled for BGP neighbor and BFD session state is INIT
+       D - BFD is enabled for BGP neighbor and BFD session state is DOWN
+       d - BFD damping timer is active
+       N - BFD is not enabled for BGP neighbor
+Neighbor           Interface          Up/Down    State       Flags
+10.0.1.1           Ethernet1          00:00:35   Established U    
+10.0.1.3           Ethernet2          00:00:35   Established U    
 ```
 <details>
 <summary> Проверка доступности Spine-1 </summary>

@@ -340,39 +340,7 @@ Neighbor           Interface          Up/Down    State       Flags
 10.0.1.1           Ethernet1          00:00:35   Established U    
 10.0.1.3           Ethernet2          00:00:35   Established U    
 ```
-<details>
-<summary> Проверка доступности Spine-1 </summary>
 
-```
-Leaf-1#ping 172.16.0.1 source loopback 0
-PING 172.16.0.1 (172.16.0.1) from 172.16.0.3 : 72(100) bytes of data.
-80 bytes from 172.16.0.1: icmp_seq=1 ttl=64 time=18.1 ms
-80 bytes from 172.16.0.1: icmp_seq=2 ttl=64 time=21.1 ms
-80 bytes from 172.16.0.1: icmp_seq=3 ttl=64 time=14.4 ms
-80 bytes from 172.16.0.1: icmp_seq=4 ttl=64 time=7.27 ms
-80 bytes from 172.16.0.1: icmp_seq=5 ttl=64 time=8.41 ms
-
---- 172.16.0.1 ping statistics ---
-5 packets transmitted, 5 received, 0% packet loss, time 73ms
-rtt min/avg/max/mdev = 7.276/13.890/21.155/5.389 ms, pipe 2, ipg/ewma 18.410/15.653 ms
-```
-</details>
-<details>
-<summary> Проверка доступности Spine-2 </summary>
-
-```
-Leaf-1#ping 172.16.0.2 source loopback 0
-PING 172.16.0.2 (172.16.0.2) from 172.16.0.3 : 72(100) bytes of data.
-80 bytes from 172.16.0.2: icmp_seq=1 ttl=64 time=16.7 ms
-80 bytes from 172.16.0.2: icmp_seq=2 ttl=64 time=19.8 ms
-80 bytes from 172.16.0.2: icmp_seq=3 ttl=64 time=14.4 ms
-80 bytes from 172.16.0.2: icmp_seq=4 ttl=64 time=12.1 ms
-80 bytes from 172.16.0.2: icmp_seq=5 ttl=64 time=9.53 ms
-
---- 172.16.0.2 ping statistics ---
-5 packets transmitted, 5 received, 0% packet loss, time 66ms
-rtt min/avg/max/mdev = 9.538/14.515/19.806/3.558 ms, pipe 2, ipg/ewma 16.586/15.344 ms
-```
 </details>
 <details>
 <summary> Проверка доступности Leaf-2 </summary>

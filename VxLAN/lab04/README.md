@@ -298,7 +298,7 @@ end
 ```
 </details>
 
-### Проверка работы протокола iBGP
+### Проверка работы iBGP
 #### Leaf-1
 ```
 Leaf-1#show ip bgp summary 
@@ -317,7 +317,7 @@ Leaf-1#show ip route bgp
  B I      172.16.0.5/32 [200/0] via 10.0.1.1, Ethernet1
                                 via 10.0.1.3, Ethernet2
 ```
-### Проверка работы протокола BFD
+### Проверка работы BFD
 #### Leaf-1
 ```
 Leaf-1#show bfd peers 

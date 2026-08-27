@@ -348,15 +348,16 @@ Neighbor           Interface          Up/Down    State       Flags
 ```
 Leaf-1#ping 172.16.0.4 source loopback 0
 PING 172.16.0.4 (172.16.0.4) from 172.16.0.3 : 72(100) bytes of data.
-80 bytes from 172.16.0.4: icmp_seq=1 ttl=63 time=67.3 ms
-80 bytes from 172.16.0.4: icmp_seq=2 ttl=63 time=62.0 ms
-80 bytes from 172.16.0.4: icmp_seq=3 ttl=63 time=62.0 ms
-80 bytes from 172.16.0.4: icmp_seq=4 ttl=63 time=84.4 ms
-80 bytes from 172.16.0.4: icmp_seq=5 ttl=63 time=82.7 ms
+80 bytes from 172.16.0.4: icmp_seq=1 ttl=63 time=60.4 ms
+80 bytes from 172.16.0.4: icmp_seq=2 ttl=63 time=59.9 ms
+80 bytes from 172.16.0.4: icmp_seq=3 ttl=63 time=66.1 ms
+80 bytes from 172.16.0.4: icmp_seq=4 ttl=63 time=92.1 ms
+80 bytes from 172.16.0.4: icmp_seq=5 ttl=63 time=91.7 ms
 
 --- 172.16.0.4 ping statistics ---
-5 packets transmitted, 5 received, 0% packet loss, time 50ms
-rtt min/avg/max/mdev = 62.065/71.757/84.490/9.908 ms, pipe 5, ipg/ewma 12.746/70.227 ms
+5 packets transmitted, 5 received, 0% packet loss, time 47ms
+rtt min/avg/max/mdev = 59.923/74.072/92.155/14.746 ms, pipe 5, ipg/ewma 11.757/68.325 ms
+
 ```
 </details>
 <details>
@@ -365,11 +366,12 @@ rtt min/avg/max/mdev = 62.065/71.757/84.490/9.908 ms, pipe 5, ipg/ewma 12.746/70
 ```
 Leaf-1#ping 172.16.0.5 source loopback 0
 PING 172.16.0.5 (172.16.0.5) from 172.16.0.3 : 72(100) bytes of data.
-80 bytes from 172.16.0.5: icmp_seq=1 ttl=63 time=40.6 ms
-80 bytes from 172.16.0.5: icmp_seq=2 ttl=63 time=48.5 ms
-80 bytes from 172.16.0.5: icmp_seq=3 ttl=63 time=40.6 ms
-80 bytes from 172.16.0.5: icmp_seq=4 ttl=63 time=30.3 ms
-80 bytes from 172.16.0.5: icmp_seq=5 ttl=63 time=92.9 ms
+80 bytes from 172.16.0.5: icmp_seq=1 ttl=63 time=66.3 ms
+80 bytes from 172.16.0.5: icmp_seq=2 ttl=63 time=65.9 ms
+80 bytes from 172.16.0.5: icmp_seq=3 ttl=63 time=77.0 ms
+80 bytes from 172.16.0.5: icmp_seq=4 ttl=63 time=66.6 ms
+80 bytes from 172.16.0.5: icmp_seq=5 ttl=63 time=57.5 ms
 
 --- 172.16.0.5 ping statistics ---
-5 packets transmitted, 5 received, 0% packet loss, time 108ms
+5 packets transmitted, 5 received, 0% packet loss, time 55ms
+rtt min/avg/max/mdev = 57.523/66.691/77.014/6.194 ms, pipe 5, ipg/ewma 13.866/66.273 ms

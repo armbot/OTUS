@@ -5,7 +5,7 @@
 
 ### Схема стенда
 
-![ISIS_scheme.jpg](ISIS_scheme.jpg)
+![lab1_scheme.jpg](lab1_scheme.jpg)
 
 ### Таблица IP-адресов Loopback-ов
 

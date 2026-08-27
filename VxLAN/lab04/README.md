@@ -1,7 +1,10 @@
 ### Построение Underlay сети (iBGP)
 
-### Цель
-- настроить iBGP для Underlay сети.
+### Цели
+- настроить iBGP для Underlay сети;
+- настроить BFD для BGP;
+- настроить аутентификацию BGP;
+- использовать шаблоны при настройки соседства BGP (peer-group).
 
 ### Схема стенда
 
@@ -34,52 +37,56 @@ Leaf-2 → Spine-2|10.0.2.2/31|10.0.2.3/31|10.0.2.2/31
 Leaf-3 → Spine-1|10.0.3.0/31|10.0.3.1/31|10.0.3.0/31
 Leaf-3 → Spine-2|10.0.3.2/31|10.0.3.3/31|10.0.3.2/31
 
-### Настройка ISIS
+### Настройка iBGP
 <details>
 <summary> Spine-1 </summary>
 
 ```
 hostname Spine-1
 !
+spanning-tree mode mstp
+!
 interface Ethernet1
    description to-Leaf-1
    mtu 9000
    no switchport
    ip address 10.0.1.1/31
-   isis enable UNDERLAY
-   isis circuit-type level-1
-   isis network point-to-point
+   bfd interval 100 min-rx 100 multiplier 3
 !
 interface Ethernet2
    description to-Leaf-2
    mtu 9000
    no switchport
    ip address 10.0.2.1/31
-   isis enable UNDERLAY
-   isis circuit-type level-1
-   isis network point-to-point
+   bfd interval 100 min-rx 100 multiplier 3
 !
 interface Ethernet3
    description to-Leaf-3
    mtu 9000
    no switchport
    ip address 10.0.3.1/31
-   isis enable UNDERLAY
-   isis circuit-type level-1
-   isis network point-to-point
+   bfd interval 100 min-rx 100 multiplier 3
 !
 interface Loopback0
    description Router-ID
    ip address 172.16.0.1/32
-   isis enable UNDERLAY
-   isis passive
 !
 ip routing
 !
-router isis UNDERLAY
-   net 49.0001.1111.1111.1111.00
+router bgp 65000
+   router-id 172.16.0.1
+   no bgp default ipv4-unicast
+   maximum-paths 8 ecmp 8
+   bgp listen range 10.0.0.0/16 peer-group LEAF remote-as 65000
+   neighbor LEAF peer group
+   neighbor LEAF remote-as 65000
+   neighbor LEAF next-hop-self
+   neighbor LEAF bfd
+   neighbor LEAF route-reflector-client
+   neighbor LEAF password 7 s4fElnmjEqh1WEspe1KhUA==
    !
-   address-family ipv4 unicast
+   address-family ipv4
+      neighbor LEAF activate
 !
 end
 ```
@@ -90,44 +97,49 @@ end
 ```
 hostname Spine-2
 !
+spanning-tree mode mstp
+!
 interface Ethernet1
    description to-Leaf-1
    mtu 9000
    no switchport
    ip address 10.0.1.3/31
-   isis enable UNDERLAY
-   isis circuit-type level-1
-   isis network point-to-point
+   bfd interval 100 min-rx 100 multiplier 3
 !
 interface Ethernet2
    description to-Leaf-2
    mtu 9000
    no switchport
    ip address 10.0.2.3/31
-   isis enable UNDERLAY
-   isis circuit-type level-1
-   isis network point-to-point
+   bfd interval 100 min-rx 100 multiplier 3
 !
 interface Ethernet3
    description to-Leaf-3
    mtu 9000
    no switchport
    ip address 10.0.3.3/31
-   isis enable UNDERLAY
-   isis circuit-type level-1
-   isis network point-to-point
+   bfd interval 100 min-rx 100 multiplier 3
 !
 interface Loopback0
    description Router-ID
    ip address 172.16.0.2/32
-   isis enable UNDERLAY
 !
 ip routing
 !
-router isis UNDERLAY
-   net 49.0001.2222.2222.2222.00
+router bgp 65000
+   router-id 172.16.0.2
+   no bgp default ipv4-unicast
+   maximum-paths 8 ecmp 8
+   bgp listen range 10.0.0.0/16 peer-group LEAF remote-as 65000
+   neighbor LEAF peer group
+   neighbor LEAF remote-as 65000
+   neighbor LEAF next-hop-self
+   neighbor LEAF bfd
+   neighbor LEAF route-reflector-client
+   neighbor LEAF password 7 s4fElnmjEqh1WEspe1KhUA==
    !
-   address-family ipv4 unicast
+   address-family ipv4
+      neighbor LEAF activate
 !
 end
 ```
@@ -138,34 +150,45 @@ end
 ```
 hostname Leaf-1
 !
+spanning-tree mode mstp
+!
 interface Ethernet1
    description to-Spine-1
    mtu 9000
    no switchport
    ip address 10.0.1.0/31
-   isis enable UNDERLAY
-   isis circuit-type level-1
-   isis network point-to-point
+   bfd interval 100 min-rx 100 multiplier 3
 !
 interface Ethernet2
    description to-Spine-2
    mtu 9000
    no switchport
    ip address 10.0.1.2/31
-   isis enable UNDERLAY
-   isis circuit-type level-1
+   bfd interval 100 min-rx 100 multiplier 3
 !
 interface Loopback0
    description Router-ID
    ip address 172.16.0.3/32
-   isis enable UNDERLAY
 !
 ip routing
 !
-router isis UNDERLAY
-   net 49.0001.0001.0001.0001.00
+route-map REDISTRIBUTE_ONLY_LOOPBACKS permit 10
+   match interface Loopback0
+!
+router bgp 65000
+   router-id 172.16.0.3
+   no bgp default ipv4-unicast
+   maximum-paths 8 ecmp 8
+   neighbor SPINE peer group
+   neighbor SPINE remote-as 65000
+   neighbor SPINE bfd
+   neighbor SPINE password 7 p1iGcmS72bggHzKQpAB8dA==
+   neighbor 10.0.1.1 peer group SPINE
+   neighbor 10.0.1.3 peer group SPINE
    !
-   address-family ipv4 unicast
+   address-family ipv4
+      neighbor SPINE activate
+      redistribute connected route-map REDISTRIBUTE_ONLY_LOOPBACKS
 !
 end
 ```
@@ -176,36 +199,45 @@ end
 ```
 hostname Leaf-2
 !
+spanning-tree mode mstp
+!
 interface Ethernet1
    description to-Spine-1
    mtu 9000
    no switchport
    ip address 10.0.2.0/31
-   isis enable UNDERLAY
-   isis circuit-type level-1
-   isis network point-to-point
+   bfd interval 100 min-rx 100 multiplier 3
 !
 interface Ethernet2
    description to-Spine-2
    mtu 9000
    no switchport
    ip address 10.0.2.2/31
-   isis enable UNDERLAY
-   isis circuit-type level-1
-   isis network point-to-point
+   bfd interval 100 min-rx 100 multiplier 3
 !
 interface Loopback0
    description Router-ID
    ip address 172.16.0.4/32
-   isis enable UNDERLAY
-   isis passive
 !
 ip routing
 !
-router isis UNDERLAY
-   net 49.0001.0002.0002.0002.00
+route-map REDISTRIBUTE_ONLY_LOOPBACKS permit 10
+   match interface Loopback0
+!
+router bgp 65000
+   router-id 172.16.0.4
+   no bgp default ipv4-unicast
+   maximum-paths 8 ecmp 8
+   neighbor SPINE peer group
+   neighbor SPINE remote-as 65000
+   neighbor SPINE bfd
+   neighbor SPINE password 7 p1iGcmS72bggHzKQpAB8dA==
+   neighbor 10.0.2.1 peer group SPINE
+   neighbor 10.0.2.3 peer group SPINE
    !
-   address-family ipv4 unicast
+   address-family ipv4
+      neighbor SPINE activate
+      redistribute connected route-map REDISTRIBUTE_ONLY_LOOPBACKS
 !
 end
 ```
@@ -216,42 +248,52 @@ end
 ```
 hostname Leaf-3
 !
+spanning-tree mode mstp
+!
 interface Ethernet1
    description to-Spine-1
    mtu 9000
    no switchport
    ip address 10.0.3.0/31
-   isis enable UNDERLAY
-   isis circuit-type level-1
-   isis network point-to-point
+   bfd interval 100 min-rx 100 multiplier 3
 !
 interface Ethernet2
    description to-Spine-2
    mtu 9000
    no switchport
    ip address 10.0.3.2/31
-   isis enable UNDERLAY
-   isis circuit-type level-1
-   isis network point-to-point
+   bfd interval 100 min-rx 100 multiplier 3
 !
 interface Loopback0
    description Router-ID
    ip address 172.16.0.5/32
-   isis enable UNDERLAY
-   isis passive
 !
 ip routing
 !
-router isis UNDERLAY
-   net 49.0001.0003.0003.0003.00
+route-map REDISTRIBUTE_ONLY_LOOPBACKS permit 10
+   match interface Loopback0
+!
+router bgp 65000
+   router-id 172.16.0.5
+   no bgp default ipv4-unicast
+   maximum-paths 8 ecmp 8
+   neighbor SPINE peer group
+   neighbor SPINE remote-as 65000
+   neighbor SPINE bfd
+   neighbor SPINE password 7 p1iGcmS72bggHzKQpAB8dA==
+   neighbor 10.0.3.1 peer group SPINE
+   neighbor 10.0.3.3 peer group SPINE
    !
-   address-family ipv4 unicast
+   address-family ipv4
+      neighbor SPINE activate
+      redistribute connected route-map REDISTRIBUTE_ONLY_LOOPBACKS
 !
 end
+
 ```
 </details>
 
-### Проверка работы протокола ISIS
+### Проверка работы протокола iBGP
 #### Leaf-1
 ```
 Leaf-1#show isis neighbors 

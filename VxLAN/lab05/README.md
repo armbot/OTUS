@@ -11,7 +11,7 @@
 
 ### Описание
 - Underlay-сеть взята из предыдущей работы - [Lab04. Построение Underlay сети (iBGP)](lab04/).
-- AF l2vpn evpn настраивается только между Leaf (peer group LEAF_EVPN); Spine только AF ipv4.
+- AF l2vpn evpn настраивается только между Leaf (peer group LEAF_EVPN).
 
 ### Таблица IP-адресов клиентов
 

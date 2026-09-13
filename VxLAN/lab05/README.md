@@ -53,10 +53,10 @@ interface Loopback0
    description Router-ID
    ip address 172.16.0.3/32
 !
-interface Vxlan1
+`interface Vxlan1
    vxlan source-interface Loopback0
    vxlan udp-port 4789
-   vxlan vlan 10 vni 10010
+   vxlan vlan 10 vni 10010`
 !
 ip routing
 !

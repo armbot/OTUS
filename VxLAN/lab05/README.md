@@ -3,7 +3,7 @@
 ### Цели
 - настроить BGP peering между Leaf в AF l2vpn evpn;
 - настроить VLAN и VXLAN на Leaf;
-- обеспечить связность между хостами в одном VLAN.
+- обеспечить доступность клиентов в одном VLAN.
 
 ### Схема стенда
 
@@ -11,151 +11,25 @@
 
 ### Описание
 - Underlay-сеть взята из предыдущей работы - [Lab04. Построение Underlay сети (iBGP)](lab04/).
-- AF l2vpn evpn настраивается только между Leaf; Spine только AF ipv4.
-- Leaf анонсирует маршрутную информацию только о Loopback 0. Spine ничего не анонсирует.
-- Дополнительно настроены BFD и аутентификация BGP.
+- AF l2vpn evpn настраивается только между Leaf (peer group LEAF_EVPN); Spine только AF ipv4.
 
-### Таблица IP-адресов Loopback-ов
+### Таблица IP-адресов клиентов
 
-|Device|Interface|IP Address|
+|Device|VLAN|IP Address|
 |---|---|---|
-Spine-1|loopback 0|172.16.0.1/32
-Spine-2|loopback 0|172.16.0.2/32
-Leaf-1|loopback 0|172.16.0.3/32
-Leaf-2|loopback 0|172.16.0.4/32
-Leaf-3|loopback 0|172.16.0.5/32
+VPC_1|10|192.168.10.101
+VPC_2|10|192.168.10.102
+VPC_3|20|192.168.20.203
+VPC_4|20|192.168.20.204
 
-### Таблица IP-адресов P2P-сетей
-
-|Линк|IP Лифа|IP Спайна|Подсеть /31|
-|---|---|---|---|
-Leaf-1 → Spine-1|10.0.1.0/31|10.0.1.1/31|10.0.1.0/31
-Leaf-1 → Spine-2|10.0.1.2/31|10.0.1.3/31|10.0.1.2/31
-
-|Линк|IP Лифа|IP Спайна|Подсеть /31|
-|---|---|---|---|
-Leaf-2 → Spine-1|10.0.2.0/31|10.0.2.1/31|10.0.2.0/31
-Leaf-2 → Spine-2|10.0.2.2/31|10.0.2.3/31|10.0.2.2/31
-
-|Линк|IP Лифа|IP Спайна|Подсеть /31|
-|---|---|---|---|
-Leaf-3 → Spine-1|10.0.3.0/31|10.0.3.1/31|10.0.3.0/31
-Leaf-3 → Spine-2|10.0.3.2/31|10.0.3.3/31|10.0.3.2/31
-
-### Настройки нод (iBGP)
-<details>
-<summary> Spine-1 </summary>
-
-```
-hostname Spine-1
-!
-spanning-tree mode mstp
-!
-interface Ethernet1
-   description to-Leaf-1
-   mtu 9000
-   no switchport
-   ip address 10.0.1.1/31
-   bfd interval 100 min-rx 100 multiplier 3
-!
-interface Ethernet2
-   description to-Leaf-2
-   mtu 9000
-   no switchport
-   ip address 10.0.2.1/31
-   bfd interval 100 min-rx 100 multiplier 3
-!
-interface Ethernet3
-   description to-Leaf-3
-   mtu 9000
-   no switchport
-   ip address 10.0.3.1/31
-   bfd interval 100 min-rx 100 multiplier 3
-!
-interface Loopback0
-   description Router-ID
-   ip address 172.16.0.1/32
-!
-ip routing
-!
-router bgp 65000
-   router-id 172.16.0.1
-   no bgp default ipv4-unicast
-   maximum-paths 8 ecmp 8
-   bgp listen range 10.0.0.0/16 peer-group LEAF remote-as 65000
-   neighbor LEAF peer group
-   neighbor LEAF remote-as 65000
-   neighbor LEAF next-hop-self
-   neighbor LEAF bfd
-   neighbor LEAF route-reflector-client
-   neighbor LEAF password 7 s4fElnmjEqh1WEspe1KhUA==
-   !
-   address-family ipv4
-      neighbor LEAF activate
-!
-end
-```
-</details>
-<details>
-<summary> Spine-2 </summary>
-
-```
-hostname Spine-2
-!
-spanning-tree mode mstp
-!
-interface Ethernet1
-   description to-Leaf-1
-   mtu 9000
-   no switchport
-   ip address 10.0.1.3/31
-   bfd interval 100 min-rx 100 multiplier 3
-!
-interface Ethernet2
-   description to-Leaf-2
-   mtu 9000
-   no switchport
-   ip address 10.0.2.3/31
-   bfd interval 100 min-rx 100 multiplier 3
-!
-interface Ethernet3
-   description to-Leaf-3
-   mtu 9000
-   no switchport
-   ip address 10.0.3.3/31
-   bfd interval 100 min-rx 100 multiplier 3
-!
-interface Loopback0
-   description Router-ID
-   ip address 172.16.0.2/32
-!
-ip routing
-!
-router bgp 65000
-   router-id 172.16.0.2
-   no bgp default ipv4-unicast
-   maximum-paths 8 ecmp 8
-   bgp listen range 10.0.0.0/16 peer-group LEAF remote-as 65000
-   neighbor LEAF peer group
-   neighbor LEAF remote-as 65000
-   neighbor LEAF next-hop-self
-   neighbor LEAF bfd
-   neighbor LEAF route-reflector-client
-   neighbor LEAF password 7 s4fElnmjEqh1WEspe1KhUA==
-   !
-   address-family ipv4
-      neighbor LEAF activate
-!
-end
-```
-</details>
+### Настройки Leaf
 <details>
 <summary> Leaf-1 </summary>
 
 ```
 hostname Leaf-1
 !
-spanning-tree mode mstp
+vlan 10
 !
 interface Ethernet1
    description to-Spine-1
@@ -171,9 +45,18 @@ interface Ethernet2
    ip address 10.0.1.2/31
    bfd interval 100 min-rx 100 multiplier 3
 !
+interface Ethernet3
+   switchport access vlan 10
+   spanning-tree portfast
+!
 interface Loopback0
    description Router-ID
    ip address 172.16.0.3/32
+!
+interface Vxlan1
+   vxlan source-interface Loopback0
+   vxlan udp-port 4789
+   vxlan vlan 10 vni 10010
 !
 ip routing
 !
@@ -184,12 +67,26 @@ router bgp 65000
    router-id 172.16.0.3
    no bgp default ipv4-unicast
    maximum-paths 8 ecmp 8
+   neighbor LEAF_EVPN peer group
+   neighbor LEAF_EVPN remote-as 65000
+   neighbor LEAF_EVPN update-source Loopback0
+   neighbor LEAF_EVPN send-community extended
    neighbor SPINE peer group
    neighbor SPINE remote-as 65000
    neighbor SPINE bfd
    neighbor SPINE password 7 p1iGcmS72bggHzKQpAB8dA==
    neighbor 10.0.1.1 peer group SPINE
    neighbor 10.0.1.3 peer group SPINE
+   neighbor 172.16.0.4 peer group LEAF_EVPN
+   neighbor 172.16.0.5 peer group LEAF_EVPN
+   !
+   vlan 10
+      rd 1.1.1.1:10
+      route-target both 65000:10010
+      redistribute learned
+   !
+   address-family evpn
+      neighbor LEAF_EVPN activate
    !
    address-family ipv4
       neighbor SPINE activate
@@ -204,7 +101,7 @@ end
 ```
 hostname Leaf-2
 !
-spanning-tree mode mstp
+vlan 10,20
 !
 interface Ethernet1
    description to-Spine-1
@@ -220,9 +117,23 @@ interface Ethernet2
    ip address 10.0.2.2/31
    bfd interval 100 min-rx 100 multiplier 3
 !
+interface Ethernet3
+   switchport access vlan 10
+   spanning-tree portfast
+!
+interface Ethernet4
+   switchport access vlan 20
+   spanning-tree portfast
+!
 interface Loopback0
    description Router-ID
    ip address 172.16.0.4/32
+!
+interface Vxlan1
+   vxlan source-interface Loopback0
+   vxlan udp-port 4789
+   vxlan vlan 10 vni 10010
+   vxlan vlan 20 vni 10020
 !
 ip routing
 !
@@ -233,12 +144,31 @@ router bgp 65000
    router-id 172.16.0.4
    no bgp default ipv4-unicast
    maximum-paths 8 ecmp 8
+   neighbor LEAF_EVPN peer group
+   neighbor LEAF_EVPN remote-as 65000
+   neighbor LEAF_EVPN update-source Loopback0
+   neighbor LEAF_EVPN send-community extended
    neighbor SPINE peer group
    neighbor SPINE remote-as 65000
    neighbor SPINE bfd
    neighbor SPINE password 7 p1iGcmS72bggHzKQpAB8dA==
    neighbor 10.0.2.1 peer group SPINE
    neighbor 10.0.2.3 peer group SPINE
+   neighbor 172.16.0.3 peer group LEAF_EVPN
+   neighbor 172.16.0.5 peer group LEAF_EVPN
+   !
+   vlan 10
+      rd 2.2.2.2:10
+      route-target both 65000:10010
+      redistribute learned
+   !
+   vlan 20
+      rd 2.2.2.2:20
+      route-target both 65000:10020
+      redistribute learned
+   !
+   address-family evpn
+      neighbor LEAF_EVPN activate
    !
    address-family ipv4
       neighbor SPINE activate
@@ -253,7 +183,7 @@ end
 ```
 hostname Leaf-3
 !
-spanning-tree mode mstp
+vlan 20
 !
 interface Ethernet1
    description to-Spine-1
@@ -269,25 +199,49 @@ interface Ethernet2
    ip address 10.0.3.2/31
    bfd interval 100 min-rx 100 multiplier 3
 !
+interface Ethernet3
+   switchport access vlan 20
+   spanning-tree portfast
+!
 interface Loopback0
    description Router-ID
    ip address 172.16.0.5/32
+!
+interface Vxlan1
+   vxlan source-interface Loopback0
+   vxlan udp-port 4789
+   vxlan vlan 20 vni 10020
 !
 ip routing
 !
 route-map REDISTRIBUTE_ONLY_LOOPBACKS permit 10
    match interface Loopback0
 !
+!
 router bgp 65000
    router-id 172.16.0.5
    no bgp default ipv4-unicast
    maximum-paths 8 ecmp 8
+   neighbor LEAF_EVPN peer group
+   neighbor LEAF_EVPN remote-as 65000
+   neighbor LEAF_EVPN update-source Loopback0
+   neighbor LEAF_EVPN send-community extended
    neighbor SPINE peer group
    neighbor SPINE remote-as 65000
    neighbor SPINE bfd
    neighbor SPINE password 7 p1iGcmS72bggHzKQpAB8dA==
    neighbor 10.0.3.1 peer group SPINE
    neighbor 10.0.3.3 peer group SPINE
+   neighbor 172.16.0.3 peer group LEAF_EVPN
+   neighbor 172.16.0.4 peer group LEAF_EVPN
+   !
+   vlan 20
+      rd 3.3.3.3:20
+      route-target both 65000:10020
+      redistribute learned
+   !
+   address-family evpn
+      neighbor LEAF_EVPN activate
    !
    address-family ipv4
       neighbor SPINE activate
@@ -298,85 +252,84 @@ end
 ```
 </details>
 
-### Проверка работы iBGP
-#### Leaf-1
+### Проверка работы EVPN (Leaf-2)
+#### #show bgp evpn summary
 ```
-Leaf-1#show ip bgp summary 
+Leaf-2#show bgp evpn summary 
 BGP summary information for VRF default
-Router identifier 172.16.0.3, local AS number 65000
+Router identifier 172.16.0.4, local AS number 65000
 Neighbor Status Codes: m - Under maintenance
-  Neighbor V AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
-  10.0.1.1 4 65000             85        80    0    0 00:04:07 Estab   2      2
-  10.0.1.3 4 65000             77        75    0    0 00:00:07 Estab   2      2
+  Neighbor   V AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
+  172.16.0.3 4 65000             62        68    0    0 00:44:35 Estab   2      2
+  172.16.0.5 4 65000             55        57    0    0 00:35:53 Estab   1      1
 ```
+#### #show bgp evpn
 ```
-Leaf-1#show ip route bgp 
+Leaf-2#show bgp evpn 
+BGP routing table information for VRF default
+Router identifier 172.16.0.4, local AS number 65000
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
 
- B I      172.16.0.4/32 [200/0] via 10.0.1.1, Ethernet1
-                                via 10.0.1.3, Ethernet2
- B I      172.16.0.5/32 [200/0] via 10.0.1.1, Ethernet1
-                                via 10.0.1.3, Ethernet2
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 1.1.1.1:10 mac-ip 0050.7966.6806
+                                 172.16.0.3            -       100     0       i
+ * >      RD: 2.2.2.2:10 mac-ip 0050.7966.6807
+                                 -                     -       -       0       i
+ * >      RD: 2.2.2.2:20 mac-ip 0050.7966.6808
+                                 -                     -       -       0       i
+ * >      RD: 3.3.3.3:20 mac-ip 0050.7966.6809
+                                 172.16.0.5            -       100     0       i
+ * >      RD: 1.1.1.1:10 imet 172.16.0.3
+                                 172.16.0.3            -       100     0       i
+ * >      RD: 2.2.2.2:10 imet 172.16.0.4
+                                 -                     -       -       0       i
+ * >      RD: 2.2.2.2:20 imet 172.16.0.4
+                                 -                     -       -       0       i
+ * >      RD: 3.3.3.3:20 imet 172.16.0.5
+                                 172.16.0.5            -       100     0       i
 ```
-### Проверка работы BFD
-#### Leaf-1
+#### #show mac address-table
 ```
-Leaf-1#show bfd peers 
-VRF name: default
------------------
-DstAddr       MyDisc    YourDisc  Interface/Transport    Type           LastUp 
---------- ----------- ----------- -------------------- ------- ----------------
-10.0.1.1  1025628936  1557984869        Ethernet1(14)  normal   08/27/26 13:24 
-10.0.1.3   604765614  1187943764        Ethernet2(15)  normal   08/27/26 13:25 
+Leaf-2#show mac address-table
+          Mac Address Table
+------------------------------------------------------------------
 
-         LastDown            LastDiag    State
--------------------- ------------------- -----
-   08/27/26 13:24       No Diagnostic       Up
-   08/27/26 13:25       No Diagnostic       Up
-```
-```
-Leaf-1#show ip bgp neighbors bfd
-BGP BFD Neighbor Table
-Flags: U - BFD is enabled for BGP neighbor and BFD session state is UP
-       I - BFD is enabled for BGP neighbor and BFD session state is INIT
-       D - BFD is enabled for BGP neighbor and BFD session state is DOWN
-       d - BFD damping timer is active
-       N - BFD is not enabled for BGP neighbor
-Neighbor           Interface          Up/Down    State       Flags
-10.0.1.1           Ethernet1          00:00:35   Established U    
-10.0.1.3           Ethernet2          00:00:35   Established U    
+Vlan    Mac Address       Type        Ports      Moves   Last Move
+----    -----------       ----        -----      -----   ---------
+  10    0050.7966.6806    DYNAMIC     Vx1        1       0:01:19 ago
+  10    0050.7966.6807    DYNAMIC     Et3        1       0:01:19 ago
+  20    0050.7966.6808    DYNAMIC     Et4        1       0:03:39 ago
+  20    0050.7966.6809    DYNAMIC     Vx1        1       0:03:39 ago
+Total Mac Addresses for this criterion: 4
 ```
 
 </details>
 <details>
-<summary> Проверка доступности Leaf-2 </summary>
+<summary> Проверка доступности VPC_1 (Leaf-1) <-> VPC_2 (Leaf-2) </summary>
 
 ```
-Leaf-1#ping 172.16.0.4 source loopback 0
-PING 172.16.0.4 (172.16.0.4) from 172.16.0.3 : 72(100) bytes of data.
-80 bytes from 172.16.0.4: icmp_seq=1 ttl=63 time=60.4 ms
-80 bytes from 172.16.0.4: icmp_seq=2 ttl=63 time=59.9 ms
-80 bytes from 172.16.0.4: icmp_seq=3 ttl=63 time=66.1 ms
-80 bytes from 172.16.0.4: icmp_seq=4 ttl=63 time=92.1 ms
-80 bytes from 172.16.0.4: icmp_seq=5 ttl=63 time=91.7 ms
+VPC_1> ping 192.168.10.102
 
---- 172.16.0.4 ping statistics ---
-5 packets transmitted, 5 received, 0% packet loss, time 47ms
-rtt min/avg/max/mdev = 59.923/74.072/92.155/14.746 ms, pipe 5, ipg/ewma 11.757/68.325 ms
+84 bytes from 192.168.10.102 icmp_seq=1 ttl=64 time=99.836 ms
+84 bytes from 192.168.10.102 icmp_seq=2 ttl=64 time=46.479 ms
+84 bytes from 192.168.10.102 icmp_seq=3 ttl=64 time=31.308 ms
+84 bytes from 192.168.10.102 icmp_seq=4 ttl=64 time=48.919 ms
+84 bytes from 192.168.10.102 icmp_seq=5 ttl=64 time=45.292 ms
 
 ```
 </details>
 <details>
-<summary> Проверка доступности Leaf-3 </summary>
+<summary> Проверка доступности VPC_4 (Leaf-3) <-> VPC_3 (Leaf-2) </summary>
 
 ```
-Leaf-1#ping 172.16.0.5 source loopback 0
-PING 172.16.0.5 (172.16.0.5) from 172.16.0.3 : 72(100) bytes of data.
-80 bytes from 172.16.0.5: icmp_seq=1 ttl=63 time=66.3 ms
-80 bytes from 172.16.0.5: icmp_seq=2 ttl=63 time=65.9 ms
-80 bytes from 172.16.0.5: icmp_seq=3 ttl=63 time=77.0 ms
-80 bytes from 172.16.0.5: icmp_seq=4 ttl=63 time=66.6 ms
-80 bytes from 172.16.0.5: icmp_seq=5 ttl=63 time=57.5 ms
 
---- 172.16.0.5 ping statistics ---
-5 packets transmitted, 5 received, 0% packet loss, time 55ms
-rtt min/avg/max/mdev = 57.523/66.691/77.014/6.194 ms, pipe 5, ipg/ewma 13.866/66.273 ms
+VPC_4> ping 192.168.20.203
+
+84 bytes from 192.168.20.203 icmp_seq=1 ttl=64 time=133.484 ms
+84 bytes from 192.168.20.203 icmp_seq=2 ttl=64 time=37.179 ms
+84 bytes from 192.168.20.203 icmp_seq=3 ttl=64 time=72.348 ms
+84 bytes from 192.168.20.203 icmp_seq=4 ttl=64 time=37.681 ms
+84 bytes from 192.168.20.203 icmp_seq=5 ttl=64 time=31.426 ms

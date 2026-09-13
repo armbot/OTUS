@@ -1,0 +1,79 @@
+!
+service routing protocols model multi-agent
+!
+hostname Leaf-2
+!
+vlan 10,20
+!
+interface Ethernet1
+   description to-Spine-1
+   mtu 9000
+   no switchport
+   ip address 10.0.2.0/31
+   bfd interval 100 min-rx 100 multiplier 3
+!
+interface Ethernet2
+   description to-Spine-2
+   mtu 9000
+   no switchport
+   ip address 10.0.2.2/31
+   bfd interval 100 min-rx 100 multiplier 3
+!
+interface Ethernet3
+   switchport access vlan 10
+   spanning-tree portfast
+!
+interface Ethernet4
+   switchport access vlan 20
+   spanning-tree portfast
+!
+interface Loopback0
+   description Router-ID
+   ip address 172.16.0.4/32
+!
+interface Vxlan1
+   vxlan source-interface Loopback0
+   vxlan udp-port 4789
+   vxlan vlan 10 vni 10010
+   vxlan vlan 20 vni 10020
+!
+ip routing
+!
+route-map REDISTRIBUTE_ONLY_LOOPBACKS permit 10
+   match interface Loopback0
+!
+router bgp 65000
+   router-id 172.16.0.4
+   no bgp default ipv4-unicast
+   maximum-paths 8 ecmp 8
+   neighbor LEAF_EVPN peer group
+   neighbor LEAF_EVPN remote-as 65000
+   neighbor LEAF_EVPN update-source Loopback0
+   neighbor LEAF_EVPN send-community extended
+   neighbor SPINE peer group
+   neighbor SPINE remote-as 65000
+   neighbor SPINE bfd
+   neighbor SPINE password 7 p1iGcmS72bggHzKQpAB8dA==
+   neighbor 10.0.2.1 peer group SPINE
+   neighbor 10.0.2.3 peer group SPINE
+   neighbor 172.16.0.3 peer group LEAF_EVPN
+   neighbor 172.16.0.5 peer group LEAF_EVPN
+   !
+   vlan 10
+      rd 2.2.2.2:10
+      route-target both 65000:10010
+      redistribute learned
+   !
+   vlan 20
+      rd 2.2.2.2:20
+      route-target both 65000:10020
+      redistribute learned
+   !
+   address-family evpn
+      neighbor LEAF_EVPN activate
+   !
+   address-family ipv4
+      neighbor SPINE activate
+      redistribute connected route-map REDISTRIBUTE_ONLY_LOOPBACKS
+!
+end

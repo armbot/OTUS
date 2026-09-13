@@ -1,4 +1,4 @@
-### Настройка Overlay на основе VxLAN EVPN для L2 связанности между клиентами
+### Overlay на основе VxLAN EVPN для L2 связанности между клиентами
 
 ### Цели
 - настроить BGP peering между Leaf в AF l2vpn evpn;

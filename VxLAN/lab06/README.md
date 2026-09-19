@@ -2,7 +2,7 @@
 
 ### Цели
 - обеспечить маршрутизацию в рамках Overlay VxLAN EVPN между клиентами следующими способами:
-   - [Bridged Overlay](/1);
+   - [Bridged Overlay](1);
    - Edge-Routed Bridging (Symmetric IRB);
    - Anycast Gateway.
 

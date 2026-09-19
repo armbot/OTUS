@@ -1,7 +1,7 @@
 ### Настройка маршрутизации в VxLAN EVPN
 
 ### Цели
-- обеспечить маршрутизацию в рамках Overlay VxLAN EVPN между клиентами следующими способами:
+- обеспечить L3-маршрутизацию между сетями в VxLAN EVPN следующими способами:
    - [Bridged Overlay](1);
    - Edge-Routed Bridging (Symmetric IRB);
    - Anycast Gateway.

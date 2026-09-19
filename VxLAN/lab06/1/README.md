@@ -80,8 +80,6 @@ VPC_1> trace 192.168.20.204
 trace to 192.168.20.204, 8 hops max, press Ctrl+C to stop
  1   192.168.10.1   53.539 ms  50.057 ms  49.352 ms
  2   *192.168.20.204   239.813 ms (ICMP type:3, code:3, Destination port unreachable)
-
-#### #show bgp evpn route-type mac-ip vni 10010
 ```
 </details>
 <details>

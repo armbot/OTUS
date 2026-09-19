@@ -10,7 +10,7 @@
 ![lab5_scheme.jpg](lab5_scheme.jpg)
 
 ### Описание
-- Underlay-сеть взята из предыдущей работы - [Lab04. Построение Underlay сети (iBGP)](lab04/).
+- Underlay-сеть взята из предыдущей работы - [Lab04. Построение Underlay сети (iBGP)](https://github.com/armbot/OTUS/tree/99f04535810fd52f22df9c8161e7573bea9dfc96/VxLAN/lab04).
 - AF l2vpn evpn настраивается только между Leaf (peer group LEAF_EVPN).
 
 ### Таблица IP-адресов клиентов

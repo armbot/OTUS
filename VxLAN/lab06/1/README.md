@@ -1,4 +1,4 @@
-### Настройка маршрутизации в VxLAN EVPN (Bridged Overlay)
+### Настройка маршрутизации в VxLAN EVPN (Bridged Overlay, Router-on-Stick)
 
 ### Схема стенда
 

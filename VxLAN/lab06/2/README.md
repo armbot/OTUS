@@ -1,5 +1,9 @@
 ### Настройка маршрутизации в VxLAN EVPN (Edge-Routed Bridging, Symmetric IRB)
 
+### Схема стенда
+
+![lab6_2_scheme.jpg](lab6_2_scheme.jpg)
+
 ### Описание
 - VxLAN EVPN L2-сеть взята из предыдущей работы - [Lab05. VxLAN EVPN L2](https://github.com/armbot/OTUS/tree/9505106f8681b0b35010acc5577b91d84ab4c4a9/VxLAN/lab05).
 - На каждом Leaf производятся идентичные настройки для Symmetric IRB (меняется только rd Loopback:50001).

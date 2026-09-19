@@ -5,7 +5,7 @@
 ![lab6_1_scheme.jpg](lab6_1_scheme.jpg)
 
 ### Описание
-- VxLAN EVPN L2-сеть взята из предыдущей работы - [Lab05. Overlay на основе VxLAN EVPN для L2 связанности между клиентами](https://github.com/armbot/OTUS/tree/9505106f8681b0b35010acc5577b91d84ab4c4a9/VxLAN/lab05).
+- VxLAN EVPN L2-сеть взята из предыдущей работы - [Lab05. VxLAN EVPN L2](https://github.com/armbot/OTUS/tree/9505106f8681b0b35010acc5577b91d84ab4c4a9/VxLAN/lab05).
 - Добавлен элемент Router с функцией маршрутизации между подсетями (Router-on-Stick).
 - На Router настроены шлюзы сетей 192.168.10.1 и 192.168.20.1.
 

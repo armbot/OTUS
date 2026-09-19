@@ -2,7 +2,7 @@
 
 ### Описание
 - VxLAN EVPN L2-сеть взята из предыдущей работы - [Lab05. VxLAN EVPN L2](https://github.com/armbot/OTUS/tree/9505106f8681b0b35010acc5577b91d84ab4c4a9/VxLAN/lab05).
-- На каждом Leaf настраивается необходимый функционал для Symmetric IRB.
+- На каждом Leaf производятся идентичные настройки для Symmetric IRB.
 
 ### Настройки
 <details>
@@ -38,6 +38,7 @@ router bgp 65000
 !
 ```
 </details>
+<details>
 <summary> Leaf-2 </summary>
 
 ```
@@ -70,6 +71,7 @@ router bgp 65000
 !
 ```
 </details>
+<details>
 <summary> Leaf-3 </summary>
 
 ```

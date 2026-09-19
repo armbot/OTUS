@@ -10,7 +10,7 @@
 ![lab5_scheme.jpg](lab5_scheme.jpg)
 
 ### Описание
-- VxLAN EVPN L2-сеть взята из предыдущей работы - [Lab05. Overlay на основе VxLAN EVPN для L2 связанности между клиентами](lab05/)
+- VxLAN EVPN L2-сеть взята из предыдущей работы - [Lab05. Overlay на основе VxLAN EVPN для L2 связанности между клиентами](https://github.com/armbot/OTUS/tree/9505106f8681b0b35010acc5577b91d84ab4c4a9/VxLAN/lab05)
 - AF l2vpn evpn настраивается только между Leaf (peer group LEAF_EVPN).
 
 ### Таблица IP-адресов клиентов

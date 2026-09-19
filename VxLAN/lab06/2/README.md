@@ -146,10 +146,29 @@ trace to 192.168.20.204, 8 hops max, press Ctrl+C to stop
 ```
 </details>
 <details>
-<summary> Leaf-1#show bgp evpn route-type mac-ip vni 10010 </summary>
+<summary> Leaf-1#show ip route vrf TENANT-A </summary>
 
 ```
-Leaf-1#show bgp evpn route-type mac-ip vni 10010
+Leaf-1#show ip route vrf TENANT-A
+
+VRF: TENANT-A
+Codes: C - connected, S - static, K - kernel, 
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1...
+
+Gateway of last resort is not set
+
+ C        192.168.10.0/24 is directly connected, Vlan10
+ B I      192.168.20.203/32 [200/0] via VTEP 172.16.0.4 VNI 50001 router-mac 50:00:00:03:37:66 local-interface Vxlan1
+ B I      192.168.20.204/32 [200/0] via VTEP 172.16.0.5 VNI 50001 router-mac 50:00:00:15:f4:e8 local-interface Vxlan1
+ B I      192.168.20.0/24 [200/0] via VTEP 172.16.0.4 VNI 50001 router-mac 50:00:00:03:37:66 local-interface Vxlan1
+                                  via VTEP 172.16.0.5 VNI 50001 router-mac 50:00:00:15:f4:e8 local-interface Vxlan1
+```
+</details>
+<details>
+<summary> Leaf-1#show bgp evpn route-type ip-prefix ipv4 </summary>
+
+```
+Leaf-1#show bgp evpn route-type ip-prefix ipv4
 BGP routing table information for VRF default
 Router identifier 172.16.0.3, local AS number 65000
 Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
@@ -158,26 +177,13 @@ Origin codes: i - IGP, e - EGP, ? - incomplete
 AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
 
           Network                Next Hop              Metric  LocPref Weight  Path
- * >      RD: 172.16.0.3:10 mac-ip 0050.7966.6806
+ * >      RD: 172.16.0.3:50001 ip-prefix 192.168.10.0/24
                                  -                     -       -       0       i
- * >      RD: 172.16.0.4:10 mac-ip 0050.7966.6807
+ * >      RD: 172.16.0.4:50001 ip-prefix 192.168.10.0/24
                                  172.16.0.4            -       100     0       i
- * >      RD: 172.16.0.4:10 mac-ip 5000.00af.d3f6
+ * >      RD: 172.16.0.4:50001 ip-prefix 192.168.20.0/24
                                  172.16.0.4            -       100     0       i
-```
-</details>
-<details>
-<summary> Leaf-1#show mac address-table </summary>
-
-```
-Leaf-1#show mac address-table
-          Mac Address Table
-------------------------------------------------------------------
-
-Vlan    Mac Address       Type        Ports      Moves   Last Move
-----    -----------       ----        -----      -----   ---------
-  10    0050.7966.6806    DYNAMIC     Et3        1       0:00:10 ago
-  10    0050.7966.6807    DYNAMIC     Vx1        1       0:00:10 ago
-  10    5000.00af.d3f6    DYNAMIC     Vx1        1       0:00:02 ago
+ * >      RD: 172.16.0.5:50001 ip-prefix 192.168.20.0/24
+                                 172.16.0.5            -       100     0       i
 ```
 </details>

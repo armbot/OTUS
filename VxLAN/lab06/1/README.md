@@ -107,23 +107,9 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
                                  172.16.0.4            -       100     0       i
 ```
 </details>
-Leaf-1#show bgp evpn route-type mac-ip vni 10010
-BGP routing table information for VRF default
-Router identifier 172.16.0.3, local AS number 65000
-Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
-                    c - Contributing to ECMP, % - Pending BGP convergence
-Origin codes: i - IGP, e - EGP, ? - incomplete
-AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+<details>
+<summary> Leaf-1#show mac address-table </summary>
 
-          Network                Next Hop              Metric  LocPref Weight  Path
- * >      RD: 172.16.0.3:10 mac-ip 0050.7966.6806
-                                 -                     -       -       0       i
- * >      RD: 172.16.0.4:10 mac-ip 0050.7966.6807
-                                 172.16.0.4            -       100     0       i
- * >      RD: 172.16.0.4:10 mac-ip 5000.00af.d3f6
-                                 172.16.0.4            -       100     0       i
-```
-#### #show mac address-table
 ```
 Leaf-1#show mac address-table
           Mac Address Table
@@ -135,3 +121,4 @@ Vlan    Mac Address       Type        Ports      Moves   Last Move
   10    0050.7966.6807    DYNAMIC     Vx1        1       0:00:10 ago
   10    5000.00af.d3f6    DYNAMIC     Vx1        1       0:00:02 ago
 ```
+</details>

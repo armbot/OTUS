@@ -1,48 +1,105 @@
 ### Настройка маршрутизации в VxLAN EVPN (Edge-Routed Bridging, Symmetric IRB)
 
-### Схема стенда
-
-![lab6_2_scheme.jpg](lab6_2_scheme.jpg)
-
 ### Описание
 - VxLAN EVPN L2-сеть взята из предыдущей работы - [Lab05. VxLAN EVPN L2](https://github.com/armbot/OTUS/tree/9505106f8681b0b35010acc5577b91d84ab4c4a9/VxLAN/lab05).
-- Добавлен элемент Router с функцией маршрутизации между подсетями (Router-on-Stick).
-- На Router настроены шлюзы сетей 192.168.10.1 и 192.168.20.1.
+- На каждом Leaf настраивается необходимый функционал для Symmetric IRB.
 
 ### Настройки
 <details>
+<summary> Leaf-1 </summary>
+
+```
+!
+vrf instance TENANT-A
+!
+interface Vlan10
+   vrf TENANT-A
+   ip address virtual 192.168.10.1/24
+!
+interface Vlan20
+   vrf TENANT-A
+   ip address virtual 192.168.20.1/24
+!
+interface Vxlan1
+   vxlan vrf TENANT-A vni 50001
+!
+ip virtual-router mac-address 00:00:22:22:33:33
+!
+ip routing vrf TENANT-A
+!
+!
+router bgp 65000
+   !
+   vrf TENANT-A
+      rd 172.16.0.3:50001
+      route-target import evpn 65000:50001
+      route-target export evpn 65000:50001
+      redistribute connected
+!
+```
+</details>
 <summary> Leaf-2 </summary>
 
 ```
 !
-interface Ethernet8
-   switchport mode trunk
+vrf instance TENANT-A
+!
+interface Vlan10
+   vrf TENANT-A
+   ip address virtual 192.168.10.1/24
+!
+interface Vlan20
+   vrf TENANT-A
+   ip address virtual 192.168.20.1/24
+!
+interface Vxlan1
+   vxlan vrf TENANT-A vni 50001
+!
+ip virtual-router mac-address 00:00:22:22:33:33
+!
+ip routing vrf TENANT-A
+!
+!
+router bgp 65000
+   !
+   vrf TENANT-A
+      rd 172.16.0.4:50001
+      route-target import evpn 65000:50001
+      route-target export evpn 65000:50001
+      redistribute connected
 !
 ```
 </details>
-<details>
-<summary> Router </summary>
+<summary> Leaf-3 </summary>
 
 ```
 !
-hostname Router
-!
-vlan 10,20
-!
-interface Ethernet1
-   switchport mode trunk
+vrf instance TENANT-A
 !
 interface Vlan10
-   no autostate
-   ip address 192.168.10.1/24
+   vrf TENANT-A
+   ip address virtual 192.168.10.1/24
 !
 interface Vlan20
-   no autostate
-   ip address 192.168.20.1/24
+   vrf TENANT-A
+   ip address virtual 192.168.20.1/24
 !
-ip routing
+interface Vxlan1
+   vxlan vrf TENANT-A vni 50001
 !
-end
+ip virtual-router mac-address 00:00:22:22:33:33
+!
+ip routing vrf TENANT-A
+!
+!
+router bgp 65000
+   !
+   vrf TENANT-A
+      rd 172.16.0.5:50001
+      route-target import evpn 65000:50001
+      route-target export evpn 65000:50001
+      redistribute connected
+!
 ```
 </details>
 

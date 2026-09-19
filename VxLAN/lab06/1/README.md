@@ -46,7 +46,7 @@ end
 ```
 </details>
 
-### Проверка работы (Leaf-1)
+### Проверка работы
 #### #show bgp evpn route-type mac-ip vni 10010
 ```
 Leaf-1#show bgp evpn route-type mac-ip vni 10010

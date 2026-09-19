@@ -85,6 +85,28 @@ trace to 192.168.20.204, 8 hops max, press Ctrl+C to stop
 
 #### #show bgp evpn route-type mac-ip vni 10010
 ```
+</details>
+<details>
+<summary> Leaf-1#show bgp evpn route-type mac-ip vni 10010 </summary>
+
+```
+Leaf-1#show bgp evpn route-type mac-ip vni 10010
+BGP routing table information for VRF default
+Router identifier 172.16.0.3, local AS number 65000
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 172.16.0.3:10 mac-ip 0050.7966.6806
+                                 -                     -       -       0       i
+ * >      RD: 172.16.0.4:10 mac-ip 0050.7966.6807
+                                 172.16.0.4            -       100     0       i
+ * >      RD: 172.16.0.4:10 mac-ip 5000.00af.d3f6
+                                 172.16.0.4            -       100     0       i
+```
+</details>
 Leaf-1#show bgp evpn route-type mac-ip vni 10010
 BGP routing table information for VRF default
 Router identifier 172.16.0.3, local AS number 65000

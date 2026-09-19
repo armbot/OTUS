@@ -102,24 +102,36 @@ Total Mac Addresses for this criterion: 4
 
 </details>
 <details>
-<summary> Проверка доступности VPC_1 (Leaf-1) <-> VPC_2 (Leaf-2) </summary>
+<summary> Проверка доступности VPC_1 (Leaf-1) <-> VPC_3 (Leaf-2) </summary>
 
 ```
-VPC_1> ping 192.168.10.102
+VPC_1> ping 192.168.20.203
 
-84 bytes from 192.168.10.102 icmp_seq=1 ttl=64 time=99.836 ms
-84 bytes from 192.168.10.102 icmp_seq=2 ttl=64 time=46.479 ms
-84 bytes from 192.168.10.102 icmp_seq=3 ttl=64 time=31.308 ms
-84 bytes from 192.168.10.102 icmp_seq=4 ttl=64 time=48.919 ms
-84 bytes from 192.168.10.102 icmp_seq=5 ttl=64 time=45.292 ms
+84 bytes from 192.168.20.203 icmp_seq=1 ttl=63 time=254.020 ms
+84 bytes from 192.168.20.203 icmp_seq=2 ttl=63 time=55.640 ms
+84 bytes from 192.168.20.203 icmp_seq=3 ttl=63 time=67.200 ms
+84 bytes from 192.168.20.203 icmp_seq=4 ttl=63 time=67.751 ms
+84 bytes from 192.168.20.203 icmp_seq=5 ttl=63 time=81.951 ms
 
+VPC_1> trace 192.168.20.203  
+trace to 192.168.20.203, 8 hops max, press Ctrl+C to stop
+ 1   192.168.10.1   43.572 ms  121.904 ms  47.688 ms
+ 2   *192.168.20.203   245.482 ms (ICMP type:3, code:3, Destination port unreachable)
 ```
 </details>
 <details>
-<summary> Проверка доступности VPC_4 (Leaf-3) <-> VPC_3 (Leaf-2) </summary>
+<summary> Проверка доступности VPC_1 (Leaf-1) <-> VPC_4 (Leaf-3) </summary>
 
 ```
+VPC_1> ping 192.168.20.204
 
-VPC_4> ping 192.168.20.203
+84 bytes from 192.168.20.204 icmp_seq=1 ttl=63 time=246.132 ms
+84 bytes from 192.168.20.204 icmp_seq=2 ttl=63 time=101.082 ms
+84 bytes from 192.168.20.204 icmp_seq=3 ttl=63 time=88.055 ms
+84 bytes from 192.168.20.204 icmp_seq=4 ttl=63 time=87.150 ms
+84 bytes from 192.168.20.204 icmp_seq=5 ttl=63 time=198.263 ms
 
-84 bytes from 192.168.20.203 icmp_seq=1 ttl=64 time=133.484 ms
+VPC_1> trace 192.168.20.204
+trace to 192.168.20.204, 8 hops max, press Ctrl+C to stop
+ 1   192.168.10.1   53.539 ms  50.057 ms  49.352 ms
+ 2   *192.168.20.204   239.813 ms (ICMP type:3, code:3, Destination port unreachable)

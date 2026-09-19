@@ -1,9 +1,10 @@
-### Настройка VxLAN EVPN для L3 связанности между клиентами
+### Настройка маршрутизации в VxLAN EVPN
 
 ### Цели
-- настроить маршрутизацию в рамках Overlay сети VxLAN EVPN между клиентами;
-   - настроить VLAN и VXLAN на Leaf;
-   - обеспечить доступность клиентов в одном VLAN.
+- обеспечить маршрутизацию в рамках Overlay VxLAN EVPN между клиентами следующими способами:
+   - Bridged Overlay;
+   - Edge-Routed Bridging (Symmetric IRB);
+   - Anycast Gateway.
 
 ### Схема стенда
 

@@ -33,11 +33,9 @@ interface Ethernet1
    switchport mode trunk
 !
 interface Vlan10
-   no autostate
    ip address 192.168.10.1/24
 !
 interface Vlan20
-   no autostate
    ip address 192.168.20.1/24
 !
 ip routing

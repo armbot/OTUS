@@ -8,10 +8,9 @@
 - VxLAN EVPN L2-сеть взята из работы - [Lab05. VxLAN EVPN L2](https://github.com/armbot/OTUS/tree/9505106f8681b0b35010acc5577b91d84ab4c4a9/VxLAN/lab05).
 - Добавлен элемент Router с функцией маршрутизации между подсетями (Router-on-Stick). Интерфейсы Router объединяются в Port-Channel (LACP).
 - На Leaf-2 И Leaf-3 настраивается Multihoming для поддержки работы Port-Channel до Router.
-- Дополнительно на Leaf-2 И Leaf-3 настраивается Link Tracking для верной работы отказоустойчивости.
+- Дополнительно на Leaf-2 и Leaf-3 настраивается Link Tracking для верной работы отказоустойчивости.
 
 ### Настройки
-#### Type-5:
 <details>
 <summary> Router </summary>
 

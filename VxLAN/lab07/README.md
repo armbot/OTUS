@@ -156,6 +156,7 @@ Address         Age (sec)  Hardware Addr   Interface
 192.168.20.204    0:00:41  0050.7966.6809  Vlan20, Port-Channel1
 ```
 </details>
+
 #### Leaf-2:
 <details>
 <summary> #show lacp peer </summary>

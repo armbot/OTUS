@@ -253,17 +253,19 @@ Gateway of last resort is not set
 <summary> Проверка доступности VPC_1 (Leaf-1) <-> VPC_3 (Leaf-2) </summary>
 
 ```
-VPC_1> ping 192.168.20.203 
+VPC_1> ping 192.168.20.203
 
-*192.168.10.1 icmp_seq=1 ttl=64 time=11.139 ms (ICMP type:3, code:0, Destination network unreachable)
-*192.168.10.1 icmp_seq=2 ttl=64 time=8.910 ms (ICMP type:3, code:0, Destination network unreachable)
-*192.168.10.1 icmp_seq=3 ttl=64 time=7.087 ms (ICMP type:3, code:0, Destination network unreachable)
-*192.168.10.1 icmp_seq=4 ttl=64 time=8.007 ms (ICMP type:3, code:0, Destination network unreachable)
-*192.168.10.1 icmp_seq=5 ttl=64 time=9.868 ms (ICMP type:3, code:0, Destination network unreachable)
+84 bytes from 192.168.20.203 icmp_seq=1 ttl=62 time=49.683 ms
+84 bytes from 192.168.20.203 icmp_seq=2 ttl=62 time=49.400 ms
+84 bytes from 192.168.20.203 icmp_seq=3 ttl=62 time=45.818 ms
+84 bytes from 192.168.20.203 icmp_seq=4 ttl=62 time=37.500 ms
+84 bytes from 192.168.20.203 icmp_seq=5 ttl=62 time=38.538 ms
 
 VPC_1> trace 192.168.20.203
 trace to 192.168.20.203, 8 hops max, press Ctrl+C to stop
- 1   *192.168.10.1   14.394 ms (ICMP type:3, code:0, Destination network unreachable)  *
+ 1   192.168.10.1   7.027 ms  7.656 ms  8.864 ms
+ 2   192.168.10.1   40.770 ms  56.893 ms  31.416 ms
+ 3   *192.168.20.203   46.650 ms (ICMP type:3, code:3, Destination port unreachable)
 ```
 </details>
 <details>
@@ -272,14 +274,16 @@ trace to 192.168.20.203, 8 hops max, press Ctrl+C to stop
 ```
 VPC_1> ping 192.168.20.204 
 
-*192.168.10.1 icmp_seq=1 ttl=64 time=8.480 ms (ICMP type:3, code:0, Destination network unreachable)
-*192.168.10.1 icmp_seq=2 ttl=64 time=10.119 ms (ICMP type:3, code:0, Destination network unreachable)
-*192.168.10.1 icmp_seq=3 ttl=64 time=9.659 ms (ICMP type:3, code:0, Destination network unreachable)
-*192.168.10.1 icmp_seq=4 ttl=64 time=8.315 ms (ICMP type:3, code:0, Destination network unreachable)
-*192.168.10.1 icmp_seq=5 ttl=64 time=6.679 ms (ICMP type:3, code:0, Destination network unreachable)
+84 bytes from 192.168.20.204 icmp_seq=1 ttl=62 time=69.863 ms
+84 bytes from 192.168.20.204 icmp_seq=2 ttl=62 time=36.451 ms
+84 bytes from 192.168.20.204 icmp_seq=3 ttl=62 time=44.148 ms
+84 bytes from 192.168.20.204 icmp_seq=4 ttl=62 time=43.580 ms
+84 bytes from 192.168.20.204 icmp_seq=5 ttl=62 time=41.887 ms
 
 VPC_1> trace 192.168.20.204
 trace to 192.168.20.204, 8 hops max, press Ctrl+C to stop
- 1   *192.168.10.1   9.043 ms (ICMP type:3, code:0, Destination network unreachable)  *
+ 1   192.168.10.1   8.327 ms  9.068 ms  10.270 ms
+ 2   192.168.20.1   32.358 ms  29.231 ms  29.078 ms
+ 3   *192.168.20.204   37.781 ms (ICMP type:3, code:3, Destination port unreachable)
 ```
 </details>

@@ -110,6 +110,7 @@ router bgp 65000
 !
 ```
 </details>
+
 #### Type-2
 Примечание: для работы через Type-2 из конфигурации удаляется строка "redistribute connected".
 

@@ -5,43 +5,38 @@
 ![lab7_scheme.jpg](lab7_scheme.jpg)
 
 ### Описание
-- VxLAN EVPN L2-сеть взята из предыдущей работы - [Lab05. VxLAN EVPN L2](https://github.com/armbot/OTUS/tree/9505106f8681b0b35010acc5577b91d84ab4c4a9/VxLAN/lab05).
-- На каждом Leaf производятся идентичные настройки для Anycast Gateway (меняется только rd Loopback:50001).
-- Проверяется 2 варианта распространения маршрутов о конечных клиентах: Type-5 (сети /24) и дополнительно Type-2 (сети /32).
+- VxLAN EVPN L2-сеть взята из работы - [Lab05. VxLAN EVPN L2](https://github.com/armbot/OTUS/tree/9505106f8681b0b35010acc5577b91d84ab4c4a9/VxLAN/lab05).
+- Добавлен элемент Router с функцией маршрутизации между подсетями (Router-on-Stick). Интерфейсы Router объединяются в Port-Channel (LACP).
+- На Leaf-2 И Leaf-3 настраивается Multihoming для поддержки работы Port-Channel до Router.
+- Дополнительно на Leaf-2 И Leaf-3 настраивается Link Tracking для верной работы отказоустойчивости.
 
 ### Настройки
 #### Type-5:
 <details>
-<summary> Leaf-1 </summary>
+<summary> Router </summary>
 
 ```
 !
-vrf instance TENANT-A
+vlan 10,20
+!
+interface Port-Channel1
+   switchport mode trunk
+!
+interface Ethernet1
+   switchport mode trunk
+   channel-group 1 mode active
+!
+interface Ethernet2
+   switchport mode trunk
+   channel-group 1 mode active
 !
 interface Vlan10
-   vrf TENANT-A
-   ip address virtual 192.168.10.1/24
+   ip address 192.168.10.1/24
 !
 interface Vlan20
-   vrf TENANT-A
-   ip address virtual 192.168.20.1/24
+   ip address 192.168.20.1/24
 !
-interface Vxlan1
-   vxlan vrf TENANT-A vni 50001
-!
-ip virtual-router mac-address 00:00:22:22:33:33
-!
-ip routing vrf TENANT-A
-!
-!
-router bgp 65000
-   !
-   vrf TENANT-A
-      rd 172.16.0.3:50001
-      route-target import evpn 65000:50001
-      route-target export evpn 65000:50001
-      redistribute connected
-!
+ip routing
 ```
 </details>
 <details>
@@ -49,31 +44,18 @@ router bgp 65000
 
 ```
 !
-vrf instance TENANT-A
-!
-interface Vlan10
-   vrf TENANT-A
-   ip address virtual 192.168.10.1/24
-!
-interface Vlan20
-   vrf TENANT-A
-   ip address virtual 192.168.20.1/24
-!
-interface Vxlan1
-   vxlan vrf TENANT-A vni 50001
-!
-ip virtual-router mac-address 00:00:22:22:33:33
-!
-ip routing vrf TENANT-A
-!
-!
-router bgp 65000
+interface Port-Channel1
+   switchport mode trunk
    !
-   vrf TENANT-A
-      rd 172.16.0.4:50001
-      route-target import evpn 65000:50001
-      route-target export evpn 65000:50001
-      redistribute connected
+   evpn ethernet-segment
+      identifier 0000:0000:0000:0000:0001
+      designated-forwarder election algorithm preference 20
+      route-target import 00:00:00:00:00:01
+   lacp system-id 1111.2222.3333
+!
+interface Ethernet8
+   switchport mode trunk
+   channel-group 1 mode active
 !
 ```
 </details>
@@ -82,37 +64,46 @@ router bgp 65000
 
 ```
 !
-vrf instance TENANT-A
-!
-interface Vlan10
-   vrf TENANT-A
-   ip address virtual 192.168.10.1/24
-!
-interface Vlan20
-   vrf TENANT-A
-   ip address virtual 192.168.20.1/24
-!
-interface Vxlan1
-   vxlan vrf TENANT-A vni 50001
-!
-ip virtual-router mac-address 00:00:22:22:33:33
-!
-ip routing vrf TENANT-A
-!
-!
-router bgp 65000
+interface Port-Channel1
+   description TO_Router
+   switchport mode trunk
    !
-   vrf TENANT-A
-      rd 172.16.0.5:50001
-      route-target import evpn 65000:50001
-      route-target export evpn 65000:50001
-      redistribute connected
+   evpn ethernet-segment
+      identifier 0000:0000:0000:0000:0001
+      designated-forwarder election algorithm preference 50
+      route-target import 00:00:00:00:00:01
+   lacp system-id 1111.2222.3333
+!
+interface Ethernet8
+   switchport mode trunk
+   channel-group 1 mode active
 !
 ```
 </details>
 
-#### Type-2:
-Для работы через Type-2 из конфигурации удаляется строка "redistribute connected".
+#### Дополнительно Link Tracking:
+<details>
+<summary> Leaf-2 и Leaf-3 </summary>
+
+```
+!
+link tracking group CORE-TRACKING
+   recovery delay 1
+!
+interface Ethernet1
+   description to-Spine-1
+   link tracking group CORE-TRACKING upstream
+!
+interface Ethernet2
+   description to-Spine-2
+   link tracking group CORE-TRACKING upstream
+!
+interface Ethernet8
+   description TO_Router
+   link tracking group CORE-TRACKING downstream
+!
+```
+</details>
 
 ### Проверка работы
 #### Type-5:

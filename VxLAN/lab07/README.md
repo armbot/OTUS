@@ -156,6 +156,70 @@ Address         Age (sec)  Hardware Addr   Interface
 192.168.20.204    0:00:41  0050.7966.6809  Vlan20, Port-Channel1
 ```
 </details>
+#### Leaf-2:
+<details>
+<summary> #show lacp peer </summary>
+
+```
+Leaf-2#show lacp peer 
+State: A = Active, P = Passive; S=ShortTimeout, L=LongTimeout;
+       G = Aggregable, I = Individual; s+=InSync, s-=OutOfSync;
+       C = Collecting, X = state machine expired,
+       D = Distributing, d = default neighbor state
+                 |                        Partner                              
+ Port    Status  | Sys-id                    Port#   State     OperKey  PortPri
+------ ----------|------------------------- ------- --------- --------- -------
+Port Channel Port-Channel1:                                            
+ Et8     Bundled | 8000,50-00-00-af-d3-f6        1   ALGs+CD    0x0001    32768
+```
+</details>
+<details>
+<summary> #show bgp evpn route-type ethernet-segment </summary>
+
+```
+Leaf-2#show bgp evpn route-type ethernet-segment 
+BGP routing table information for VRF default
+Router identifier 172.16.0.4, local AS number 65000
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 172.16.0.4:1 ethernet-segment 0000:0000:0000:0000:0001 172.16.0.4
+                                 -                     -       -       0       i
+ * >      RD: 172.16.0.5:1 ethernet-segment 0000:0000:0000:0000:0001 172.16.0.5
+                                 172.16.0.5            -       100     0       i
+```
+</details>
+<details>
+<summary> #show bgp evpn route-type auto-discovery  </summary>
+
+```
+Leaf-2#show bgp evpn route-type auto-discovery 
+BGP routing table information for VRF default
+Router identifier 172.16.0.4, local AS number 65000
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 172.16.0.4:10 auto-discovery 0 0000:0000:0000:0000:0001
+                                 -                     -       -       0       i
+ * >      RD: 172.16.0.4:20 auto-discovery 0 0000:0000:0000:0000:0001
+                                 -                     -       -       0       i
+ * >      RD: 172.16.0.5:10 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.0.5            -       100     0       i
+ * >      RD: 172.16.0.5:20 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.0.5            -       100     0       i
+ * >      RD: 172.16.0.4:1 auto-discovery 0000:0000:0000:0000:0001
+                                 -                     -       -       0       i
+ * >      RD: 172.16.0.5:1 auto-discovery 0000:0000:0000:0000:0001
+                                 172.16.0.5            -       100     0       i
+```
+</details>
+
 <details>
 <summary> Проверка доступности VPC_1 (Leaf-1) <-> VPC_3 (Leaf-2) </summary>
 

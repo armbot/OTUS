@@ -105,48 +105,56 @@ interface Ethernet8
 </details>
 
 ### Проверка работы
+#### Router:
 <details>
-<summary> Leaf-1#show ip route vrf TENANT-A </summary>
+<summary> #show port-channel 1 detailed </summary>
 
 ```
-Leaf-1#show ip route vrf TENANT-A
-
-VRF: TENANT-A
-Codes: C - connected, S - static, K - kernel, 
-       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1...
-
-Gateway of last resort is not set
-
- C        192.168.10.0/24 is directly connected, Vlan10
- B I      192.168.20.203/32 [200/0] via VTEP 172.16.0.4 VNI 50001 router-mac 50:00:00:03:37:66 local-interface Vxlan1
- B I      192.168.20.204/32 [200/0] via VTEP 172.16.0.5 VNI 50001 router-mac 50:00:00:15:f4:e8 local-interface Vxlan1
- B I      192.168.20.0/24 [200/0] via VTEP 172.16.0.4 VNI 50001 router-mac 50:00:00:03:37:66 local-interface Vxlan1
-                                  via VTEP 172.16.0.5 VNI 50001 router-mac 50:00:00:15:f4:e8 local-interface Vxlan1
+Router#show port-channel 1 detailed 
+Port Channel Port-Channel1 (Fallback State: Unconfigured):
+Minimum links: unconfigured
+Minimum speed: unconfigured
+Current weight/Max weight: 2/16
+  Active Ports:
+       Port            Time Became Active       Protocol       Mode      Weight
+    --------------- ------------------------ -------------- ------------ ------
+       Ethernet1       15:57:38                 LACP           Active      1   
+       Ethernet2       16:07:56                 LACP           Active      1   
 ```
 </details>
 <details>
-<summary> Leaf-1#show bgp evpn route-type ip-prefix ipv4 </summary>
+<summary> #show mac address-table </summary>
 
 ```
-Leaf-1#show bgp evpn route-type ip-prefix ipv4
-BGP routing table information for VRF default
-Router identifier 172.16.0.3, local AS number 65000
-Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
-                    c - Contributing to ECMP, % - Pending BGP convergence
-Origin codes: i - IGP, e - EGP, ? - incomplete
-AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+Router#show mac address-table 
+          Mac Address Table
+------------------------------------------------------------------
 
-          Network                Next Hop              Metric  LocPref Weight  Path
- * >      RD: 172.16.0.3:50001 ip-prefix 192.168.10.0/24
-                                 -                     -       -       0       i
- * >      RD: 172.16.0.4:50001 ip-prefix 192.168.10.0/24
-                                 172.16.0.4            -       100     0       i
- * >      RD: 172.16.0.4:50001 ip-prefix 192.168.20.0/24
-                                 172.16.0.4            -       100     0       i
- * >      RD: 172.16.0.5:50001 ip-prefix 192.168.20.0/24
-                                 172.16.0.5            -       100     0       i
+Vlan    Mac Address       Type        Ports      Moves   Last Move
+----    -----------       ----        -----      -----   ---------
+  10    0050.7966.6806    DYNAMIC     Po1        1       0:00:48 ago
+  20    0050.7966.6808    DYNAMIC     Po1        1       0:00:48 ago
+  20    0050.7966.6809    DYNAMIC     Po1        1       0:00:29 ago
+Total Mac Addresses for this criterion: 3
+
+          Multicast Mac Address Table
+------------------------------------------------------------------
+
+Vlan    Mac Address       Type        Ports
+----    -----------       ----        -----
+Total Mac Addresses for this criterion: 0
 ```
 </details>
+<details>
+<summary> #show arp </summary>
+
+```
+Router#show arp
+Address         Age (sec)  Hardware Addr   Interface
+192.168.10.101    0:01:00  0050.7966.6806  Vlan10, Port-Channel1
+192.168.20.203    0:00:59  0050.7966.6808  Vlan20, Port-Channel1
+192.168.20.204    0:00:41  0050.7966.6809  Vlan20, Port-Channel1
+```
 </details>
 <details>
 <summary> Проверка доступности VPC_1 (Leaf-1) <-> VPC_3 (Leaf-2) </summary>

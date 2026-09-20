@@ -115,6 +115,7 @@ router bgp 65000
 Для работы через Type-2 из конфигурации удаляется строка "redistribute connected".
 
 ### Проверка работы
+#### Type-5:
 <details>
 <summary> Leaf-1#show ip route vrf TENANT-A </summary>
 

@@ -7,8 +7,9 @@
 ### Описание
 - VxLAN EVPN L2-сеть взята из предыдущей работы - [Lab05. VxLAN EVPN L2](https://github.com/armbot/OTUS/tree/9505106f8681b0b35010acc5577b91d84ab4c4a9/VxLAN/lab05).
 - На каждом Leaf производятся идентичные настройки для Anycast Gateway (меняется только rd Loopback:50001).
+- Проверяется 2 варианта распространения маршрутов о конечных клиентах: Type-5 (сети /24) и дополнительно Type-2 (сети /32).
 
-### Настройки
+### Настройки (Type-5)
 <details>
 <summary> Leaf-1 </summary>
 
@@ -108,6 +109,7 @@ router bgp 65000
 !
 ```
 </details>
+### !!! Примечание: для работы через Type-2 из конфигурации удаляется строка "redistribute connected".
 
 ### Проверка работы
 <details>

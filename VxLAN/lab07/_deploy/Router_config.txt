@@ -1,0 +1,43 @@
+hostname Router
+!
+spanning-tree mode mstp
+!
+vlan 10,20
+!
+interface Port-Channel1
+   description TO_LEAF2_&_LEAF3
+   switchport mode trunk
+!
+interface Ethernet1
+   switchport mode trunk
+   channel-group 1 mode active
+!
+interface Ethernet2
+   switchport mode trunk
+   channel-group 1 mode active
+!
+interface Ethernet3
+!
+interface Ethernet4
+!
+interface Ethernet5
+!
+interface Ethernet6
+!
+interface Ethernet7
+!
+interface Ethernet8
+!
+interface Management1
+!
+interface Vlan10
+   no autostate
+   ip address 192.168.10.1/24
+!
+interface Vlan20
+   no autostate
+   ip address 192.168.20.1/24
+!
+ip routing
+!
+end

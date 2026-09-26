@@ -1,0 +1,51 @@
+service routing protocols model multi-agent
+!
+hostname Router
+!
+vlan 100-101,200-201
+!
+interface Ethernet1
+   description To_LEAF-2
+   switchport trunk allowed vlan 100,200
+   switchport mode trunk
+!
+interface Ethernet2
+   description To_LEAF-3
+   switchport trunk allowed vlan 101,201
+   switchport mode trunk
+!
+interface Vlan100
+   no autostate
+   ip address 10.0.2.101/31
+!
+interface Vlan101
+   no autostate
+   ip address 10.0.3.101/31
+!
+interface Vlan200
+   no autostate
+   ip address 10.0.2.201/31
+!
+interface Vlan201
+   no autostate
+   ip address 10.0.3.201/31
+!
+ip routing
+!
+ip route 0.0.0.0/0 Null0
+!
+router bgp 65001
+   no bgp default ipv4-unicast
+   maximum-paths 2 ecmp 2
+   neighbor LEAF peer group
+   neighbor LEAF remote-as 65000
+   neighbor 10.0.2.100 peer group LEAF
+   neighbor 10.0.2.200 peer group LEAF
+   neighbor 10.0.3.100 peer group LEAF
+   neighbor 10.0.3.200 peer group LEAF
+   !
+   address-family ipv4
+      neighbor LEAF activate
+      redistribute static
+!
+end

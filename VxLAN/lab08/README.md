@@ -5,9 +5,9 @@
 ![lab_8_scheme.jpg](lab_8_scheme.jpg)
 
 ### Описание
-- VxLAN EVPN сеть взята из работы - [Lab06. Edge-Routed Bridging (Anycast Gateway](https://github.com/armbot/OTUS/tree/5f4ad0bc44a3915d06a75d83844c7fd0ae5506cb/VxLAN/lab06/2).
-- На каждом Leaf производятся идентичные настройки для Anycast Gateway (меняется только rd Loopback:50001).
-- Проверяется 2 варианта распространения маршрутов о конечных клиентах: Type-5 (сети /24) и дополнительно Type-2 (сети /32).
+- VxLAN EVPN сеть взята из работы - [Lab06. Edge-Routed Bridging (Anycast Gateway)](https://github.com/armbot/OTUS/tree/5f4ad0bc44a3915d06a75d83844c7fd0ae5506cb/VxLAN/lab06/2).
+- Каждому VLAN соответствует свой VRF: VLAN 10 - VRF "A", VLAN 20 - VRF "B". Без внешней маршрутизации доступ из VLAN 10 в VLAN 20 невозможен.
+- Добавлен Router, анонсирующий маршрут по умолчанию в каждый VRF через eBGP стыки (VLAN 100, 101, 200, 201).
 
 ### Настройки
 #### Type-5:

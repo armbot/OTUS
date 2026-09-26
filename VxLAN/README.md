@@ -6,3 +6,4 @@
  - [Lab05. Overlay на основе VxLAN EVPN для L2 связанности между клиентами](lab05/)
  - [Lab06. Маршрутизация в VxLAN EVPN](lab06/)
  - [Lab07. Multihoming в VxLAN EVPN](lab07/)
+ - [Lab08. Внешние маршруты в VxLAN EVPN (TYPE-5)](lab08/)

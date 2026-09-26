@@ -5,7 +5,7 @@
 ![lab_8_scheme.jpg](lab_8_scheme.jpg)
 
 ### Описание
-- VxLAN EVPN L2-сеть взята из предыдущей работы - [Lab05. VxLAN EVPN L2](https://github.com/armbot/OTUS/tree/5f4ad0bc44a3915d06a75d83844c7fd0ae5506cb/VxLAN/lab06/2).
+- VxLAN EVPN сеть взята из работы - [Lab06. Edge-Routed Bridging (Anycast Gateway](https://github.com/armbot/OTUS/tree/5f4ad0bc44a3915d06a75d83844c7fd0ae5506cb/VxLAN/lab06/2).
 - На каждом Leaf производятся идентичные настройки для Anycast Gateway (меняется только rd Loopback:50001).
 - Проверяется 2 варианта распространения маршрутов о конечных клиентах: Type-5 (сети /24) и дополнительно Type-2 (сети /32).
 

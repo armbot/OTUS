@@ -1819,6 +1819,51 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
 ```
 </details>
 
+###### Проверка доступности
+<details>
+<summary> VPC-1 </summary>
+
+```
+VPC_1> show ip all
+
+NAME   IP/MASK              GATEWAY           MAC                DNS
+VPC_1  192.168.10.101/24    192.168.10.1      00:50:79:66:68:06  
+
+
+VPC_1> show arp            
+
+00:00:5e:00:01:0a  192.168.10.1 expires in 94 seconds 
+
+
+VPC_1> ping 192.168.10.1   
+
+84 bytes from 192.168.10.1 icmp_seq=1 ttl=64 time=59.044 ms
+84 bytes from 192.168.10.1 icmp_seq=2 ttl=64 time=142.207 ms
+84 bytes from 192.168.10.1 icmp_seq=3 ttl=64 time=39.163 ms
+84 bytes from 192.168.10.1 icmp_seq=4 ttl=64 time=111.029 ms
+84 bytes from 192.168.10.1 icmp_seq=5 ttl=64 time=54.703 ms
+
+
+VPC_1> ping 192.168.10.102   
+
+host (192.168.10.102) not reachable
+```
+</details>
+<details>
+<summary> LEAF-1 </summary>
+
+```
+
+```
+</details>
+<details>
+<summary> BORDER-LEAF-1-1 </summary>
+
+```
+
+```
+</details>
+
 ### Проверка доступности
 #### Проверка доступности (iBGP)
 <details>

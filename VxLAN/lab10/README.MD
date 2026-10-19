@@ -32,53 +32,43 @@
 
 ### Настройки
 <details>
-<summary> Leaf-1 </summary>
+<summary> LEAF-1 </summary>
 
 ```
+!
 service routing protocols model multi-agent
 !
-hostname Leaf-1
+hostname LEAF-1
 !
 vlan 10
 !
-vrf instance TENANT-A
-!
 interface Ethernet1
-   description to-Spine-1
+   description SPINE-1-1
    mtu 9000
    no switchport
    ip address 10.0.1.0/31
-   bfd interval 100 min-rx 100 multiplier 3
 !
 interface Ethernet2
-   description to-Spine-2
+   description SPINE-2-1
    mtu 9000
    no switchport
    ip address 10.0.1.2/31
-   bfd interval 100 min-rx 100 multiplier 3
 !
 interface Ethernet3
    switchport access vlan 10
    spanning-tree portfast
 !
+!
 interface Loopback0
    description Router-ID
    ip address 172.16.0.3/32
-!
-interface Vlan10
-   vrf TENANT-A
-   ip address virtual 192.168.10.1/24
 !
 interface Vxlan1
    vxlan source-interface Loopback0
    vxlan udp-port 4789
    vxlan vlan 10 vni 10010
-   vxlan vrf TENANT-A vni 50001
-!
-ip virtual-router mac-address 00:00:22:22:33:33
 !
 ip routing
-ip routing vrf TENANT-A
 !
 route-map REDISTRIBUTE_ONLY_LOOPBACKS permit 10
    match interface Loopback0
@@ -86,19 +76,20 @@ route-map REDISTRIBUTE_ONLY_LOOPBACKS permit 10
 router bgp 65000
    router-id 172.16.0.3
    no bgp default ipv4-unicast
-   maximum-paths 8 ecmp 8
-   neighbor LEAF_OVERLAY peer group
-   neighbor LEAF_OVERLAY remote-as 65000
-   neighbor LEAF_OVERLAY update-source Loopback0
-   neighbor LEAF_OVERLAY send-community extended
+   timers bgp 1 3
+   maximum-paths 2 ecmp 2
+   neighbor BORDER_LEAF_OVERLAY peer group
+   neighbor BORDER_LEAF_OVERLAY remote-as 65000
+   neighbor BORDER_LEAF_OVERLAY update-source Loopback0
+   neighbor BORDER_LEAF_OVERLAY send-community extended
    neighbor SPINE peer group
    neighbor SPINE remote-as 65000
-   neighbor SPINE bfd
-   neighbor SPINE password 7 p1iGcmS72bggHzKQpAB8dA==
    neighbor 10.0.1.1 peer group SPINE
    neighbor 10.0.1.3 peer group SPINE
-   neighbor 172.16.0.4 peer group LEAF_OVERLAY
-   neighbor 172.16.0.5 peer group LEAF_OVERLAY
+   neighbor 172.16.1.1 peer group BORDER_LEAF_OVERLAY
+   neighbor 172.16.1.2 peer group BORDER_LEAF_OVERLAY
+   neighbor 172.16.1.3 peer group BORDER_LEAF_OVERLAY
+   neighbor 172.16.1.4 peer group BORDER_LEAF_OVERLAY
    !
    vlan 10
       rd 172.16.0.3:10
@@ -106,49 +97,37 @@ router bgp 65000
       redistribute learned
    !
    address-family evpn
-      neighbor LEAF_OVERLAY activate
+      neighbor BORDER_LEAF_OVERLAY activate
    !
    address-family ipv4
       neighbor SPINE activate
       redistribute connected route-map REDISTRIBUTE_ONLY_LOOPBACKS
-   !
-   vrf TENANT-A
-      rd 172.16.0.3:50001
-      route-target import evpn 65000:50001
-      route-target export evpn 65000:50001
 !
 end
 ```
 </details>
 <details>
-<summary> Leaf-2 </summary>
+<summary> LEAF-2 </summary>
 
 ```
+!
 service routing protocols model multi-agent
 !
-hostname Leaf-2
+hostname LEAF-2
 !
-spanning-tree mode mstp
-!
-vlan 10,20,100,200
-!
-vrf instance TENANT-A
-!
-vrf instance TENANT-B
+vlan 10,20
 !
 interface Ethernet1
-   description to-Spine-1
+   description SPINE-1-1
    mtu 9000
    no switchport
-   ip address 10.0.2.0/31
-   bfd interval 100 min-rx 100 multiplier 3
+   ip address 10.0.1.4/31
 !
 interface Ethernet2
-   description to-Spine-2
+   description SPINE-2-1
    mtu 9000
    no switchport
-   ip address 10.0.2.2/31
-   bfd interval 100 min-rx 100 multiplier 3
+   ip address 10.0.1.6/31
 !
 interface Ethernet3
    switchport access vlan 10
@@ -158,45 +137,17 @@ interface Ethernet4
    switchport access vlan 20
    spanning-tree portfast
 !
-interface Ethernet8
-   description TO_Router
-   switchport mode trunk
-!
 interface Loopback0
    description Router-ID
    ip address 172.16.0.4/32
-!
-interface Vlan10
-   vrf TENANT-A
-   ip address virtual 192.168.10.1/24
-!
-interface Vlan20
-   vrf TENANT-B
-   ip address virtual 192.168.20.1/24
-!
-interface Vlan100
-   description P-to-P_Router_VRF_A
-   vrf TENANT-A
-   ip address 10.0.2.100/31
-!
-interface Vlan200
-   description P-to-P_Router_VRF_B
-   vrf TENANT-B
-   ip address 10.0.2.200/31
 !
 interface Vxlan1
    vxlan source-interface Loopback0
    vxlan udp-port 4789
    vxlan vlan 10 vni 10010
    vxlan vlan 20 vni 10020
-   vxlan vrf TENANT-A vni 50001
-   vxlan vrf TENANT-B vni 50002
-!
-ip virtual-router mac-address 00:00:22:22:33:33
 !
 ip routing
-ip routing vrf TENANT-A
-ip routing vrf TENANT-B
 !
 route-map REDISTRIBUTE_ONLY_LOOPBACKS permit 10
    match interface Loopback0
@@ -204,19 +155,20 @@ route-map REDISTRIBUTE_ONLY_LOOPBACKS permit 10
 router bgp 65000
    router-id 172.16.0.4
    no bgp default ipv4-unicast
-   maximum-paths 8 ecmp 8
-   neighbor LEAF_OVERLAY peer group
-   neighbor LEAF_OVERLAY remote-as 65000
-   neighbor LEAF_OVERLAY update-source Loopback0
-   neighbor LEAF_OVERLAY send-community extended
+   timers bgp 1 3
+   maximum-paths 2 ecmp 2
+   neighbor BORDER_LEAF_OVERLAY peer group
+   neighbor BORDER_LEAF_OVERLAY remote-as 65000
+   neighbor BORDER_LEAF_OVERLAY update-source Loopback0
+   neighbor BORDER_LEAF_OVERLAY send-community extended
    neighbor SPINE peer group
    neighbor SPINE remote-as 65000
-   neighbor SPINE bfd
-   neighbor SPINE password 7 p1iGcmS72bggHzKQpAB8dA==
-   neighbor 10.0.2.1 peer group SPINE
-   neighbor 10.0.2.3 peer group SPINE
-   neighbor 172.16.0.3 peer group LEAF_OVERLAY
-   neighbor 172.16.0.5 peer group LEAF_OVERLAY
+   neighbor 10.0.1.5 peer group SPINE
+   neighbor 10.0.1.7 peer group SPINE
+   neighbor 172.16.1.1 peer group BORDER_LEAF_OVERLAY
+   neighbor 172.16.1.2 peer group BORDER_LEAF_OVERLAY
+   neighbor 172.16.1.3 peer group BORDER_LEAF_OVERLAY
+   neighbor 172.16.1.4 peer group BORDER_LEAF_OVERLAY
    !
    vlan 10
       rd 172.16.0.4:10
@@ -229,164 +181,146 @@ router bgp 65000
       redistribute learned
    !
    address-family evpn
-      neighbor LEAF_OVERLAY activate
+      neighbor BORDER_LEAF_OVERLAY activate
    !
    address-family ipv4
       neighbor SPINE activate
-      no neighbor 10.0.2.201 activate
       redistribute connected route-map REDISTRIBUTE_ONLY_LOOPBACKS
-   !
-   vrf TENANT-A
-      rd 172.16.0.4:50001
-      route-target import evpn 65000:50001
-      route-target export evpn 65000:50001
-      neighbor 10.0.2.101 remote-as 65001
-      !
-      address-family ipv4
-         neighbor 10.0.2.101 activate
-         redistribute connected
-   !
-   vrf TENANT-B
-      rd 172.16.0.4:50002
-      route-target import evpn 65000:50002
-      route-target export evpn 65000:50002
-      neighbor 10.0.2.201 remote-as 65001
-      !
-      address-family ipv4
-         neighbor 10.0.2.201 activate
-         redistribute connected
 !
 end
 ```
 </details>
 <details>
-<summary> Leaf-3 </summary>
+<summary> BORDER-LEAF-1-1 </summary>
 
 ```
+!
 service routing protocols model multi-agent
 !
-hostname Leaf-3
+hostname BORDER-LEAF-1-1
 !
-vlan 10,20,101,201
+vlan 10,20
 !
-vrf instance TENANT-A
-!
-vrf instance TENANT-B
+interface Port-Channel1
+   description TO_Router
+   switchport mode trunk
+   !
+   evpn ethernet-segment
+      identifier 0000:0000:0000:0000:0001
+      designated-forwarder election algorithm preference 20
+      route-target import 00:00:00:00:00:01
+   lacp system-id 1111.2222.3333
 !
 interface Ethernet1
    description to-Spine-1
    mtu 9000
    no switchport
-   ip address 10.0.3.0/31
-   bfd interval 100 min-rx 100 multiplier 3
+   ip address 10.0.2.0/31
 !
-interface Ethernet2
-   description to-Spine-2
+interface Ethernet5
+   description BORDER_LEAF_2_1
    mtu 9000
    no switchport
-   ip address 10.0.3.2/31
-   bfd interval 100 min-rx 100 multiplier 3
+   ip address 10.10.0.0/31
 !
-interface Ethernet3
-   switchport access vlan 20
-   spanning-tree portfast
+interface Ethernet6
+   description BORDER_LEAF_2_2
+   mtu 9000
+   no switchport
+   ip address 10.10.0.2/31
 !
 interface Ethernet8
    description TO_Router
    switchport mode trunk
+   channel-group 1 mode active
 !
 interface Loopback0
    description Router-ID
-   ip address 172.16.0.5/32
-!
-interface Vlan10
-   vrf TENANT-A
-   ip address virtual 192.168.10.1/24
-!
-interface Vlan20
-   vrf TENANT-B
-   ip address virtual 192.168.20.1/24
-!
-interface Vlan101
-   description P-to-P_Router_VRF_A
-   vrf TENANT-A
-   ip address 10.0.3.100/31
-!
-interface Vlan201
-   description P-to-P_Router_VRF_B
-   vrf TENANT-B
-   ip address 10.0.3.200/31
+   ip address 172.16.1.1/32
 !
 interface Vxlan1
    vxlan source-interface Loopback0
    vxlan udp-port 4789
    vxlan vlan 10 vni 10010
    vxlan vlan 20 vni 10020
-   vxlan vrf TENANT-A vni 50001
-   vxlan vrf TENANT-B vni 50002
-!
-ip virtual-router mac-address 00:00:22:22:33:33
 !
 ip routing
-ip routing vrf TENANT-A
-ip routing vrf TENANT-B
+!
+route-map LEAF_+_LOOPBACKS permit 10
+   description LOCAL_LOOPBACK
+   match interface Loopback0
+!
+route-map LEAF_+_LOOPBACKS permit 100
+   description LEAFs_LOOPBACKs
+   match local-preference 100
+!
+route-map NO_LP_50 deny 50
+   match local-preference 50
+!
+route-map NO_LP_50 permit 100
 !
 route-map REDISTRIBUTE_ONLY_LOOPBACKS permit 10
    match interface Loopback0
 !
+route-map SET_LP_50 permit 50
+   set local-preference 50
+!
+route-map SET_LP_75_LOOPBACK permit 75
+   match interface Loopback0
+   set local-preference 75
+!
+route-map SET_LP_75_LOOPBACK permit 100
+!
 router bgp 65000
-   router-id 172.16.0.5
+   router-id 172.16.1.1
    no bgp default ipv4-unicast
-   maximum-paths 8 ecmp 8
+   timers bgp 1 3
+   maximum-paths 4 ecmp 4
+   bgp listen range 172.16.0.0/24 peer-group LEAF_OVERLAY remote-as 65000
+   neighbor BORDER_LEAF_DC_2 peer group
+   neighbor BORDER_LEAF_DC_2 remote-as 65000
+   neighbor BORDER_LEAF_DC_2 next-hop-self
+   neighbor BORDER_LEAF_DC_2 route-reflector-client
+   neighbor BORDER_LEAF_OVERLAY peer group
+   neighbor BORDER_LEAF_OVERLAY remote-as 65000
+   neighbor BORDER_LEAF_OVERLAY update-source Loopback0
+   neighbor BORDER_LEAF_OVERLAY send-community extended
    neighbor LEAF_OVERLAY peer group
    neighbor LEAF_OVERLAY remote-as 65000
    neighbor LEAF_OVERLAY update-source Loopback0
    neighbor LEAF_OVERLAY send-community extended
    neighbor SPINE peer group
    neighbor SPINE remote-as 65000
-   neighbor SPINE bfd
-   neighbor SPINE password 7 p1iGcmS72bggHzKQpAB8dA==
-   neighbor 10.0.3.1 peer group SPINE
-   neighbor 10.0.3.3 peer group SPINE
-   neighbor 172.16.0.3 peer group LEAF_OVERLAY
-   neighbor 172.16.0.4 peer group LEAF_OVERLAY
+   neighbor SPINE next-hop-self
+   neighbor 10.0.2.1 peer group SPINE
+   neighbor 10.10.0.1 peer group BORDER_LEAF_DC_2
+   neighbor 10.10.0.3 peer group BORDER_LEAF_DC_2
+   neighbor 172.16.1.2 peer group BORDER_LEAF_OVERLAY
+   neighbor 172.16.1.3 peer group BORDER_LEAF_OVERLAY
+   neighbor 172.16.1.4 peer group BORDER_LEAF_OVERLAY
    !
    vlan 10
-      rd 172.16.0.5:10
+      rd 172.16.1.1:10
       route-target both 65000:10010
       redistribute learned
    !
    vlan 20
-      rd 172.16.0.5:20
+      rd 172.16.1.1:20
       route-target both 65000:10020
       redistribute learned
    !
    address-family evpn
+      neighbor BORDER_LEAF_OVERLAY activate
       neighbor LEAF_OVERLAY activate
    !
    address-family ipv4
+      neighbor BORDER_LEAF_DC_2 activate
+      neighbor BORDER_LEAF_DC_2 route-map SET_LP_50 in
+      neighbor BORDER_LEAF_DC_2 route-map LEAF_+_LOOPBACKS out
       neighbor SPINE activate
+      neighbor SPINE route-map NO_LP_50 in
+      neighbor SPINE route-map SET_LP_75_LOOPBACK out
       redistribute connected route-map REDISTRIBUTE_ONLY_LOOPBACKS
-   !
-   vrf TENANT-A
-      rd 172.16.0.5:50001
-      route-target import evpn 65000:50001
-      route-target export evpn 65000:50001
-      neighbor 10.0.3.101 remote-as 65001
-      !
-      address-family ipv4
-         neighbor 10.0.3.101 activate
-         redistribute connected
-   !
-   vrf TENANT-B
-      rd 172.16.0.5:50002
-      route-target import evpn 65000:50002
-      route-target export evpn 65000:50002
-      neighbor 10.0.3.201 remote-as 65001
-      !
-      address-family ipv4
-         neighbor 10.0.3.201 activate
-         redistribute connected
 !
 end
 ```

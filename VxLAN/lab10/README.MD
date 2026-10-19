@@ -1969,9 +1969,63 @@ VPC_1> ping 192.168.20.203 -t
 84 bytes from 192.168.20.203 icmp_seq=9 ttl=63 time=212.617 ms
 84 bytes from 192.168.20.203 icmp_seq=10 ttl=63 time=291.039 ms
 84 bytes from 192.168.20.203 icmp_seq=11 ttl=63 time=171.578 ms
-^C
 ```
 </details>
 
-###### Результат - успешно.
-###### Незначительный таймаут в доступности между хостами.
+###### Результат - успешно. Незначительный таймаут в доступности между хостами.
+
+#### Отказ FW
+<details>
+<summary> Исходное состояние LEAF-1 </summary>
+
+```
+LEAF-1#show bgp evpn route-type mac-ip 0000.5e00.010a
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 172.16.1.1:10 mac-ip 0000.5e00.010a
+                                 172.16.1.1            -       100     0       i
+
+```
+</details>
+<details>
+<summary> Исходное состояние FW-2-1 </summary>
+
+```
+FW-2-1#show vrrp brief
+Interface VRF        ID  Ver Pri Time  State  Last Transition     VR IP Addresses 
+--------- ---------- --- --- --- ----- ------ ------------------- ---------------
+Vl10      default    10  2   100 3600  Backup 00:00:20 ago        192.168.10.1    
+Vl20      default    20  2   100 3600  Backup 00:00:40 ago        192.168.20.1   
+```
+</details>
+<details>
+<summary> Состояние FW-2-1 после отказа основного FW </summary>
+
+```
+FW-2-1#show vrrp brief 
+Interface VRF        ID  Ver Pri Time  State  Last Transition     VR IP Addresses 
+--------- ---------- --- --- --- ----- ------ ------------------- ---------------
+Vl10      default    10  2   100 3600  Master 00:01:42 ago        192.168.10.1    
+Vl20      default    20  2   100 3600  Master 00:01:42 ago        192.168.20.1  
+```
+</details>
+<details>
+<summary> Состояние VPC-1 во время отказа </summary>
+
+```
+VPC_1> ping 192.168.20.203 -t
+
+84 bytes from 192.168.20.203 icmp_seq=10 ttl=63 time=91.068 ms
+84 bytes from 192.168.20.203 icmp_seq=11 ttl=63 time=90.449 ms
+84 bytes from 192.168.20.203 icmp_seq=12 ttl=63 time=142.829 ms
+84 bytes from 192.168.20.203 icmp_seq=13 ttl=63 time=175.635 ms
+84 bytes from 192.168.20.203 icmp_seq=14 ttl=63 time=126.252 ms
+192.168.20.203 icmp_seq=15 timeout
+192.168.20.203 icmp_seq=16 timeout
+84 bytes from 192.168.20.203 icmp_seq=17 ttl=63 time=256.412 ms
+84 bytes from 192.168.20.203 icmp_seq=18 ttl=63 time=114.804 ms
+84 bytes from 192.168.20.203 icmp_seq=19 ttl=63 time=95.316 ms
+```
+</details>
+
+###### Результат - успешно. Незначительный таймаут в доступности между хостами.

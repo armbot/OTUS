@@ -7,3 +7,4 @@
  - [Lab06. Маршрутизация в VxLAN EVPN](lab06/)
  - [Lab07. Multihoming в VxLAN EVPN](lab07/)
  - [Lab08. Внешние маршруты в VxLAN EVPN (TYPE-5)](lab08/)
+ - [Проектная работа](lab10/)

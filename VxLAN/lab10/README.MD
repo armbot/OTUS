@@ -13,9 +13,15 @@
 ![stand.jpg](stand.jpg)
 
 ### Описание
-- VxLAN EVPN сеть взята из работы - [Lab06. Edge-Routed Bridging (Anycast Gateway)](https://github.com/armbot/OTUS/tree/5f4ad0bc44a3915d06a75d83844c7fd0ae5506cb/VxLAN/lab06/2).
-- Каждому VLAN соответствует свой VRF: VLAN 10 - VRF "A", VLAN 20 - VRF "B". Без внешней маршрутизации доступ из VLAN 10 в VLAN 20 невозможен.
-- Добавлен Router, анонсирующий маршрут по умолчанию в каждый VRF через eBGP стыки (VRF "A" - VLAN 100, 101; VRF "B" - VLAN 200, 201).
+На стенде используется минимальное кол-во узлов для имитации работы заданной сети.
+#### LEAF
+- FW подключаются к паре BORDER LEAF в каждом ЦОД агрегированным L2-каналом (LACP). Между BORDER LEAF в одном ЦОД настроен MuLtihoming.
+- Настроены VRRP-группы для шлюзов каждой сети (VLAN 10, VLAN 20). Схема работы: Active-Standby.
+- Включена маршрутизация между VLAN 10 и VLAN 20.
+#### FW
+- FW подключаются к паре BORDER LEAF в каждом ЦОД агрегированным L2-каналом (LACP). Между BORDER LEAF в одном ЦОД настроен MuLtihoming.
+- Настроены VRRP-группы для шлюзов каждой сети (VLAN 10, VLAN 20). Схема работы: Active-Standby.
+- Включена маршрутизация между VLAN 10 и VLAN 20.
 
 ### Настройки
 <details>

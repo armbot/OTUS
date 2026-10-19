@@ -1307,12 +1307,6 @@ Neighbor            AS Session State AFI/SAFI                AFI/SAFI State   NL
 ```
 </details>
 
-<details>
-<summary> Проверка доступности </summary>
-...
-
-```
-</details>
 
 #### Проверка работы EVPN
 <details>

@@ -463,19 +463,7 @@ end
 ```
 </details>
 
-<details>
-<summary> BORDER-LEAF-2-1 </summary>
 
-
-```
-</details>
-
-<details>
-<summary> BORDER-LEAF-2-2 </summary>
-
-
-```
-</details>
 
 ### Проверка работы
 <details>

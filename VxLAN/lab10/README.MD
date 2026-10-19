@@ -8,6 +8,9 @@
 - Использовать минимальное кол-во соединение между ЦОД и РЦОД.
 - Добиться максимальной изоляции, подлкючаемых хостов (клиентов) к сети.
 
+### Схема стенда
+![stand.jpg](stand.jpg)
+
 ### Описание
 - VxLAN EVPN сеть взята из работы - [Lab06. Edge-Routed Bridging (Anycast Gateway)](https://github.com/armbot/OTUS/tree/5f4ad0bc44a3915d06a75d83844c7fd0ae5506cb/VxLAN/lab06/2).
 - Каждому VLAN соответствует свой VRF: VLAN 10 - VRF "A", VLAN 20 - VRF "B". Без внешней маршрутизации доступ из VLAN 10 в VLAN 20 невозможен.

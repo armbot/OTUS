@@ -1988,6 +1988,18 @@ LEAF-1#show bgp evpn route-type mac-ip 0000.5e00.010a
 ```
 </details>
 <details>
+<summary> Состояние LEAF-1 после отказа основного FW </summary>
+
+```
+LEAF-1#show bgp evpnroute-type mac-ip 0000.5e00.010a
+
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 172.16.1.3:10 mac-ip 0000.5e00.010a
+                                 172.16.1.3            -       100     0       i
+```
+</details>
+<details>
 <summary> Исходное состояние FW-2-1 </summary>
 
 ```

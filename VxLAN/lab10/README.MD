@@ -1377,6 +1377,8 @@ ping: sendmsg: Network is unreachable
 ```
 </details>
 
+##### Результат - успешно. Все BORDER LEAF-ы имеют L3-связность с LEAF-1. L3-связность между LEAF-1 и LEAF-2 отсутствует.
+
 #### Проверка работы EVPN
 <details>
 <summary> BORDER-LEAF-1-1 </summary>

@@ -1310,41 +1310,68 @@ Neighbor            AS Session State AFI/SAFI                AFI/SAFI State   NL
 <summary> Проверка доступности с LEAF-1 </summary>
 
 ```
-LEAF-2#show ip route bgp 
+LEAF-1#ping 172.16.1.1 source loopback 0
+PING 172.16.1.1 (172.16.1.1) from 172.16.0.3 : 72(100) bytes of data.
+80 bytes from 172.16.1.1: icmp_seq=1 ttl=63 time=18.0 ms
+80 bytes from 172.16.1.1: icmp_seq=2 ttl=63 time=17.8 ms
+80 bytes from 172.16.1.1: icmp_seq=3 ttl=63 time=17.8 ms
+80 bytes from 172.16.1.1: icmp_seq=4 ttl=63 time=25.8 ms
 
- B I      172.16.1.1/32 [200/0] via 10.0.1.5, Ethernet1
- B I      172.16.1.2/32 [200/0] via 10.0.1.5, Ethernet1
- B I      172.16.1.3/32 [200/0] via 10.0.1.7, Ethernet2
- B I      172.16.1.4/32 [200/0] via 10.0.1.7, Ethernet2
-
-
-LEAF-2#show ip bgp neighbors received-routes 
-
-          Network                Peer              Next Hop              Metric  AIGP       LocPref Weight  Path
-          10.0.1.4/31            -                 -                     -       -          -       -       i
-          10.0.1.6/31            -                 -                     -       -          -       -       i
- * >      172.16.0.4/32          -                 -                     -       -          -       -       i
- * >      172.16.1.1/32          10.0.1.5          10.0.1.5              -       -          75      -       i Or-ID: 172.16.1.1 C-LST: 172.16.1.11 
- *        172.16.1.1/32          10.0.1.7          10.0.1.7              -       -          50      -       i Or-ID: 172.16.1.1 C-LST: 172.16.1.12 172.16.1.3 
- * >      172.16.1.2/32          10.0.1.5          10.0.1.5              -       -          75      -       i Or-ID: 172.16.1.2 C-LST: 172.16.1.11 
- *        172.16.1.2/32          10.0.1.7          10.0.1.7              -       -          50      -       i Or-ID: 172.16.1.2 C-LST: 172.16.1.12 172.16.1.3 
- * >      172.16.1.3/32          10.0.1.7          10.0.1.7              -       -          75      -       i Or-ID: 172.16.1.3 C-LST: 172.16.1.12 
- *        172.16.1.3/32          10.0.1.5          10.0.1.5              -       -          50      -       i Or-ID: 172.16.1.3 C-LST: 172.16.1.11 172.16.1.1 
- * >      172.16.1.4/32          10.0.1.7          10.0.1.7              -       -          75      -       i Or-ID: 172.16.1.4 C-LST: 172.16.1.12 
- *        172.16.1.4/32          10.0.1.5          10.0.1.5              -       -          50      -       i Or-ID: 172.16.1.4 C-LST: 172.16.1.11 172.16.1.1 
+--- 172.16.1.1 ping statistics ---
+5 packets transmitted, 4 received, 20% packet loss, time 83ms
+rtt min/avg/max/mdev = 17.824/19.908/25.832/3.425 ms, pipe 2, ipg/ewma 20.921/19.012 ms
 
 
-LEAF-2#show bgp summary 
-BGP summary information for VRF default
-Router identifier 172.16.0.4, local AS number 65000
-Neighbor            AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
----------- ----------- ------------- ----------------------- -------------- ---------- ----------
-10.0.1.5         65000 Established   IPv4 Unicast            Negotiated              4          4
-10.0.1.7         65000 Established   IPv4 Unicast            Negotiated              4          4
-172.16.1.1       65000 Established   L2VPN EVPN              Negotiated              7          7
-172.16.1.2       65000 Established   L2VPN EVPN              Negotiated              7          7
-172.16.1.3       65000 Established   L2VPN EVPN              Negotiated              6          6
-172.16.1.4       65000 Established   L2VPN EVPN              Negotiated              6          6
+LEAF-1#ping 172.16.1.2 source loopback 0
+PING 172.16.1.2 (172.16.1.2) from 172.16.0.3 : 72(100) bytes of data.
+80 bytes from 172.16.1.2: icmp_seq=1 ttl=63 time=43.3 ms
+80 bytes from 172.16.1.2: icmp_seq=2 ttl=63 time=51.7 ms
+80 bytes from 172.16.1.2: icmp_seq=3 ttl=63 time=48.6 ms
+80 bytes from 172.16.1.2: icmp_seq=4 ttl=63 time=42.6 ms
+80 bytes from 172.16.1.2: icmp_seq=5 ttl=63 time=28.6 ms
+
+--- 172.16.1.2 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 84ms
+rtt min/avg/max/mdev = 28.618/42.988/51.703/7.939 ms, pipe 4, ipg/ewma 21.157/42.613 ms
+
+
+LEAF-1#ping 172.16.1.3 source loopback 0
+PING 172.16.1.3 (172.16.1.3) from 172.16.0.3 : 72(100) bytes of data.
+80 bytes from 172.16.1.3: icmp_seq=1 ttl=63 time=89.5 ms
+80 bytes from 172.16.1.3: icmp_seq=2 ttl=63 time=85.7 ms
+80 bytes from 172.16.1.3: icmp_seq=3 ttl=63 time=89.5 ms
+80 bytes from 172.16.1.3: icmp_seq=4 ttl=63 time=91.4 ms
+80 bytes from 172.16.1.3: icmp_seq=5 ttl=63 time=87.4 ms
+
+--- 172.16.1.3 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 49ms
+rtt min/avg/max/mdev = 85.763/88.753/91.452/1.989 ms, pipe 5, ipg/ewma 12.408/89.170 ms
+
+
+LEAF-1#ping 172.16.1.4 source loopback 0
+PING 172.16.1.4 (172.16.1.4) from 172.16.0.3 : 72(100) bytes of data.
+80 bytes from 172.16.1.4: icmp_seq=1 ttl=63 time=20.0 ms
+80 bytes from 172.16.1.4: icmp_seq=2 ttl=63 time=21.6 ms
+80 bytes from 172.16.1.4: icmp_seq=3 ttl=63 time=25.0 ms
+80 bytes from 172.16.1.4: icmp_seq=4 ttl=63 time=39.6 ms
+80 bytes from 172.16.1.4: icmp_seq=5 ttl=63 time=33.1 ms
+
+--- 172.16.1.4 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 76ms
+rtt min/avg/max/mdev = 20.027/27.911/39.670/7.417 ms, pipe 2, ipg/ewma 19.233/24.433 ms
+
+
+LEAF-1#ping 172.16.0.4 source loopback 0
+PING 172.16.0.4 (172.16.0.4) from 172.16.0.3 : 72(100) bytes of data.
+ping: sendmsg: Network is unreachable
+ping: sendmsg: Network is unreachable
+ping: sendmsg: Network is unreachable
+ping: sendmsg: Network is unreachable
+ping: sendmsg: Network is unreachable
+
+--- 172.16.0.4 ping statistics ---
+5 packets transmitted, 0 received, 100% packet loss, time 54ms
+
 ```
 </details>
 

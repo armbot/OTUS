@@ -957,53 +957,359 @@ end
 <summary> BORDER-LEAF-1-1 </summary>
 
 ```
+BORDER-LEAF-1-1#show ip route bgp 
 
+
+ B I      172.16.0.3/32 [200/0] via 10.0.2.1, Ethernet1
+ B I      172.16.0.4/32 [200/0] via 10.0.2.1, Ethernet1
+ B I      172.16.1.2/32 [200/0] via 10.0.2.1, Ethernet1
+ B I      172.16.1.3/32 [200/0] via 10.10.0.1, Ethernet5
+ B I      172.16.1.4/32 [200/0] via 10.10.0.3, Ethernet6
+
+BORDER-LEAF-1-1#show ip bgp neighbors received-routes 
+
+
+          Network                Peer              Next Hop              Metric  AIGP       LocPref Weight  Path
+          10.0.2.0/31            -                 -                     -       -          -       -       i
+          10.10.0.0/31           -                 -                     -       -          -       -       i
+          10.10.0.2/31           -                 -                     -       -          -       -       i
+ * >      172.16.0.3/32          10.0.2.1          10.0.2.1              -       -          100     -       i Or-ID: 172.16.0.3 C-LST: 172.16.1.11 
+ *        172.16.0.3/32          10.10.0.1         10.10.0.1             -       -          100     -       i Or-ID: 172.16.0.3 C-LST: 172.16.1.3 172.16.1.12 
+ *        172.16.0.3/32          10.10.0.3         10.10.0.3             -       -          100     -       i Or-ID: 172.16.0.3 C-LST: 172.16.1.4 172.16.1.12 
+ * >      172.16.0.4/32          10.0.2.1          10.0.2.1              -       -          100     -       i Or-ID: 172.16.0.4 C-LST: 172.16.1.11 
+ *        172.16.0.4/32          10.10.0.1         10.10.0.1             -       -          100     -       i Or-ID: 172.16.0.4 C-LST: 172.16.1.3 172.16.1.12 
+ *        172.16.0.4/32          10.10.0.3         10.10.0.3             -       -          100     -       i Or-ID: 172.16.0.4 C-LST: 172.16.1.4 172.16.1.12 
+ * >      172.16.1.1/32          -                 -                     -       -          -       -       i
+ * >      172.16.1.2/32          10.0.2.1          10.0.2.1              -       -          75      -       i Or-ID: 172.16.1.2 C-LST: 172.16.1.11 
+ * >      172.16.1.3/32          10.10.0.1         10.10.0.1             -       -          100     -       i
+ * >      172.16.1.4/32          10.10.0.3         10.10.0.3             -       -          100     -       i
+
+
+BORDER-LEAF-1-1#show bgp summary 
+BGP summary information for VRF default
+Router identifier 172.16.1.1, local AS number 65000
+Neighbor            AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+---------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.0.2.1         65000 Established   IPv4 Unicast            Negotiated              3          3
+10.10.0.1        65000 Established   IPv4 Unicast            Negotiated              3          3
+10.10.0.3        65000 Established   IPv4 Unicast            Negotiated              3          3
+172.16.0.3       65000 Established   L2VPN EVPN              Negotiated              1          1
+172.16.0.4       65000 Established   L2VPN EVPN              Negotiated              2          2
+172.16.1.2       65000 Established   L2VPN EVPN              Negotiated              7          7
+172.16.1.3       65000 Established   L2VPN EVPN              Negotiated              6          6
+172.16.1.4       65000 Established   L2VPN EVPN              Negotiated              6          6
 ```
 </details>
 <details>
 <summary> BORDER-LEAF-1-2 </summary>
 
 ```
+BORDER-LEAF-1-2#show ip route bgp
 
+
+ B I      172.16.0.3/32 [200/0] via 10.0.3.1, Ethernet1
+ B I      172.16.0.4/32 [200/0] via 10.0.3.1, Ethernet1
+ B I      172.16.1.1/32 [200/0] via 10.0.3.1, Ethernet1
+ B I      172.16.1.3/32 [200/0] via 10.10.0.5, Ethernet6
+ B I      172.16.1.4/32 [200/0] via 10.10.0.7, Ethernet5
+
+BORDER-LEAF-1-2#show ip bgp neighbors received-routes 
+
+
+          Network                Peer              Next Hop              Metric  AIGP       LocPref Weight  Path
+          10.0.3.0/31            -                 -                     -       -          -       -       i
+          10.10.0.4/31           -                 -                     -       -          -       -       i
+          10.10.0.6/31           -                 -                     -       -          -       -       i
+ * >      172.16.0.3/32          10.0.3.1          10.0.3.1              -       -          100     -       i Or-ID: 172.16.0.3 C-LST: 172.16.1.11 
+ *        172.16.0.3/32          10.10.0.7         10.10.0.7             -       -          100     -       i Or-ID: 172.16.0.3 C-LST: 172.16.1.4 172.16.1.12 
+ *        172.16.0.3/32          10.10.0.5         10.10.0.5             -       -          100     -       i Or-ID: 172.16.0.3 C-LST: 172.16.1.3 172.16.1.12 
+ * >      172.16.0.4/32          10.0.3.1          10.0.3.1              -       -          100     -       i Or-ID: 172.16.0.4 C-LST: 172.16.1.11 
+ *        172.16.0.4/32          10.10.0.7         10.10.0.7             -       -          100     -       i Or-ID: 172.16.0.4 C-LST: 172.16.1.4 172.16.1.12 
+ *        172.16.0.4/32          10.10.0.5         10.10.0.5             -       -          100     -       i Or-ID: 172.16.0.4 C-LST: 172.16.1.3 172.16.1.12 
+ * >      172.16.1.1/32          10.0.3.1          10.0.3.1              -       -          75      -       i Or-ID: 172.16.1.1 C-LST: 172.16.1.11 
+ * >      172.16.1.2/32          -                 -                     -       -          -       -       i
+ * >      172.16.1.3/32          10.10.0.5         10.10.0.5             -       -          100     -       i
+          172.16.1.3/32          10.0.3.1          10.0.3.1              -       -          50      -       i Or-ID: 172.16.1.3 C-LST: 172.16.1.11 172.16.1.1 
+ * >      172.16.1.4/32          10.10.0.7         10.10.0.7             -       -          100     -       i
+          172.16.1.4/32          10.0.3.1          10.0.3.1              -       -          50      -       i Or-ID: 172.16.1.4 C-LST: 172.16.1.11 172.16.1.1 
+
+
+BORDER-LEAF-1-2#show bgp summary 
+BGP summary information for VRF default
+Router identifier 172.16.1.2, local AS number 65000
+Neighbor            AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+---------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.0.3.1         65000 Established   IPv4 Unicast            Negotiated              5          3
+10.10.0.5        65000 Established   IPv4 Unicast            Negotiated              3          3
+10.10.0.7        65000 Established   IPv4 Unicast            Negotiated              3          3
+172.16.0.3       65000 Established   L2VPN EVPN              Negotiated              1          1
+172.16.0.4       65000 Established   L2VPN EVPN              Negotiated              2          2
+172.16.1.1       65000 Established   L2VPN EVPN              Negotiated              7          7
+172.16.1.3       65000 Established   L2VPN EVPN              Negotiated              6          6
+172.16.1.4       65000 Established   L2VPN EVPN              Negotiated              6          6
 ```
 </details>
 <details>
 <summary> BORDER-LEAF-2-1 </summary>
 
 ```
+BORDER-LEAF-2-1#show ip route bgp 
 
+ B I      172.16.0.3/32 [200/0] via 10.0.4.1, Ethernet1
+ B I      172.16.0.4/32 [200/0] via 10.0.4.1, Ethernet1
+ B I      172.16.1.1/32 [200/0] via 10.10.0.0, Ethernet5
+ B I      172.16.1.2/32 [200/0] via 10.10.0.4, Ethernet6
+ B I      172.16.1.4/32 [200/0] via 10.0.4.1, Ethernet1
+
+
+BORDER-LEAF-2-1#show ip bgp neighbors received-routes 
+
+          Network                Peer              Next Hop              Metric  AIGP       LocPref Weight  Path
+          10.0.4.0/31            -                 -                     -       -          -       -       i
+          10.10.0.0/31           -                 -                     -       -          -       -       i
+          10.10.0.4/31           -                 -                     -       -          -       -       i
+ * >      172.16.0.3/32          10.0.4.1          10.0.4.1              -       -          100     -       i Or-ID: 172.16.0.3 C-LST: 172.16.1.12 
+ *        172.16.0.3/32          10.10.0.4         10.10.0.4             -       -          100     -       i Or-ID: 172.16.0.3 C-LST: 172.16.1.2 172.16.1.11 
+ *        172.16.0.3/32          10.10.0.0         10.10.0.0             -       -          100     -       i Or-ID: 172.16.0.3 C-LST: 172.16.1.1 172.16.1.11 
+ * >      172.16.0.4/32          10.0.4.1          10.0.4.1              -       -          100     -       i Or-ID: 172.16.0.4 C-LST: 172.16.1.12 
+ *        172.16.0.4/32          10.10.0.4         10.10.0.4             -       -          100     -       i Or-ID: 172.16.0.4 C-LST: 172.16.1.2 172.16.1.11 
+ *        172.16.0.4/32          10.10.0.0         10.10.0.0             -       -          100     -       i Or-ID: 172.16.0.4 C-LST: 172.16.1.1 172.16.1.11 
+ * >      172.16.1.1/32          10.10.0.0         10.10.0.0             -       -          100     -       i
+ * >      172.16.1.2/32          10.10.0.4         10.10.0.4             -       -          100     -       i
+ * >      172.16.1.3/32          -                 -                     -       -          -       -       i
+ * >      172.16.1.4/32          10.0.4.1          10.0.4.1              -       -          75      -       i Or-ID: 172.16.1.4 C-LST: 172.16.1.12 
+
+
+BORDER-LEAF-2-1#show bgp summary 
+BGP summary information for VRF default
+Router identifier 172.16.1.3, local AS number 65000
+Neighbor            AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+---------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.0.4.1         65000 Established   IPv4 Unicast            Negotiated              3          3
+10.10.0.0        65000 Established   IPv4 Unicast            Negotiated              3          3
+10.10.0.4        65000 Established   IPv4 Unicast            Negotiated              3          3
+172.16.0.3       65000 Established   L2VPN EVPN              Negotiated              1          1
+172.16.0.4       65000 Established   L2VPN EVPN              Negotiated              2          2
+172.16.1.1       65000 Established   L2VPN EVPN              Negotiated              7          7
+172.16.1.2       65000 Established   L2VPN EVPN              Negotiated              7          7
+172.16.1.4       65000 Established   L2VPN EVPN              Negotiated              6          6
 ```
 </details>
 <details>
 <summary> BORDER-LEAF-2-2 </summary>
 
 ```
+BORDER-LEAF-2-2#show ip route bgp 
 
+ B I      172.16.0.3/32 [200/0] via 10.0.5.1, Ethernet1
+ B I      172.16.0.4/32 [200/0] via 10.0.5.1, Ethernet1
+ B I      172.16.1.1/32 [200/0] via 10.10.0.2, Ethernet6
+ B I      172.16.1.2/32 [200/0] via 10.10.0.6, Ethernet5
+ B I      172.16.1.3/32 [200/0] via 10.0.5.1, Ethernet1
+
+
+BORDER-LEAF-2-2#show ip bgp neighbors received-routes 
+
+          Network                Peer              Next Hop              Metric  AIGP       LocPref Weight  Path
+          10.0.5.0/31            -                 -                     -       -          -       -       i
+          10.10.0.2/31           -                 -                     -       -          -       -       i
+          10.10.0.6/31           -                 -                     -       -          -       -       i
+ * >      172.16.0.3/32          10.0.5.1          10.0.5.1              -       -          100     -       i Or-ID: 172.16.0.3 C-LST: 172.16.1.12 
+ *        172.16.0.3/32          10.10.0.6         10.10.0.6             -       -          100     -       i Or-ID: 172.16.0.3 C-LST: 172.16.1.2 172.16.1.11 
+ *        172.16.0.3/32          10.10.0.2         10.10.0.2             -       -          100     -       i Or-ID: 172.16.0.3 C-LST: 172.16.1.1 172.16.1.11 
+ * >      172.16.0.4/32          10.0.5.1          10.0.5.1              -       -          100     -       i Or-ID: 172.16.0.4 C-LST: 172.16.1.12 
+ *        172.16.0.4/32          10.10.0.6         10.10.0.6             -       -          100     -       i Or-ID: 172.16.0.4 C-LST: 172.16.1.2 172.16.1.11 
+ *        172.16.0.4/32          10.10.0.2         10.10.0.2             -       -          100     -       i Or-ID: 172.16.0.4 C-LST: 172.16.1.1 172.16.1.11 
+ * >      172.16.1.1/32          10.10.0.2         10.10.0.2             -       -          100     -       i
+          172.16.1.1/32          10.0.5.1          10.0.5.1              -       -          50      -       i Or-ID: 172.16.1.1 C-LST: 172.16.1.12 172.16.1.3 
+ * >      172.16.1.2/32          10.10.0.6         10.10.0.6             -       -          100     -       i
+          172.16.1.2/32          10.0.5.1          10.0.5.1              -       -          50      -       i Or-ID: 172.16.1.2 C-LST: 172.16.1.12 172.16.1.3 
+ * >      172.16.1.3/32          10.0.5.1          10.0.5.1              -       -          75      -       i Or-ID: 172.16.1.3 C-LST: 172.16.1.12 
+ * >      172.16.1.4/32          -                 -                     -       -          -       -       i
+
+
+BORDER-LEAF-2-2#show bgp summary 
+BGP summary information for VRF default
+Router identifier 172.16.1.4, local AS number 65000
+Neighbor            AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+---------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.0.5.1         65000 Established   IPv4 Unicast            Negotiated              5          3
+10.10.0.2        65000 Established   IPv4 Unicast            Negotiated              3          3
+10.10.0.6        65000 Established   IPv4 Unicast            Negotiated              3          3
+172.16.0.3       65000 Established   L2VPN EVPN              Negotiated              1          1
+172.16.0.4       65000 Established   L2VPN EVPN              Negotiated              2          2
+172.16.1.1       65000 Established   L2VPN EVPN              Negotiated              7          7
+172.16.1.2       65000 Established   L2VPN EVPN              Negotiated              7          7
+172.16.1.3       65000 Established   L2VPN EVPN              Negotiated              6          6
 ```
 </details>
 <details>
 <summary> SPINE-1-1 </summary>
 
 ```
+SPINE-1-1#show ip route bgp 
 
+
+ B I      172.16.0.3/32 [200/0] via 10.0.1.0, Ethernet1
+ B I      172.16.0.4/32 [200/0] via 10.0.1.4, Ethernet4
+ B I      172.16.1.1/32 [200/0] via 10.0.2.0, Ethernet2
+ B I      172.16.1.2/32 [200/0] via 10.0.3.0, Ethernet3
+ B I      172.16.1.3/32 [200/0] via 10.0.2.0, Ethernet2
+                                via 10.0.3.0, Ethernet3
+ B I      172.16.1.4/32 [200/0] via 10.0.2.0, Ethernet2
+                                via 10.0.3.0, Ethernet3
+
+SPINE-1-1#show ip bgp neighbors received-routes 
+
+          Network                Peer              Next Hop              Metric  AIGP       LocPref Weight  Path
+ * >      172.16.0.3/32          10.0.1.0          10.0.1.0              -       -          100     -       i
+ * >      172.16.0.4/32          10.0.1.4          10.0.1.4              -       -          100     -       i
+ * >      172.16.1.1/32          10.0.2.0          10.0.2.0              -       -          75      -       i
+ * >      172.16.1.2/32          10.0.3.0          10.0.3.0              -       -          75      -       i
+ * >Ec    172.16.1.3/32          10.0.2.0          10.0.2.0              -       -          50      -       i Or-ID: 172.16.1.3 C-LST: 172.16.1.1 
+ *  ec    172.16.1.3/32          10.0.3.0          10.0.3.0              -       -          50      -       i Or-ID: 172.16.1.3 C-LST: 172.16.1.2 
+ * >Ec    172.16.1.4/32          10.0.2.0          10.0.2.0              -       -          50      -       i Or-ID: 172.16.1.4 C-LST: 172.16.1.1 
+ *  ec    172.16.1.4/32          10.0.3.0          10.0.3.0              -       -          50      -       i Or-ID: 172.16.1.4 C-LST: 172.16.1.2 
+
+
+SPINE-1-1#show bgp summary 
+BGP summary information for VRF default
+Router identifier 172.16.1.11, local AS number 65000
+Neighbor          AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+-------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.0.1.0       65000 Established   IPv4 Unicast            Negotiated              1          1
+10.0.1.4       65000 Established   IPv4 Unicast            Negotiated              1          1
+10.0.2.0       65000 Established   IPv4 Unicast            Negotiated              3          3
+10.0.3.0       65000 Established   IPv4 Unicast            Negotiated              3          3
 ```
 </details>
 <details>
 <summary> SPINE-2-1 </summary>
 
 ```
+SPINE-2-1#show ip route bgp 
 
+
+ B I      172.16.0.3/32 [200/0] via 10.0.1.2, Ethernet1
+ B I      172.16.0.4/32 [200/0] via 10.0.1.6, Ethernet4
+ B I      172.16.1.1/32 [200/0] via 10.0.4.0, Ethernet2
+                                via 10.0.5.0, Ethernet3
+ B I      172.16.1.2/32 [200/0] via 10.0.4.0, Ethernet2
+                                via 10.0.5.0, Ethernet3
+ B I      172.16.1.3/32 [200/0] via 10.0.4.0, Ethernet2
+ B I      172.16.1.4/32 [200/0] via 10.0.5.0, Ethernet3
+
+SPINE-2-1#show ip bgp neighbors received-routes 
+
+
+          Network                Peer              Next Hop              Metric  AIGP       LocPref Weight  Path
+ * >      172.16.0.3/32          10.0.1.2          10.0.1.2              -       -          100     -       i
+ * >      172.16.0.4/32          10.0.1.6          10.0.1.6              -       -          100     -       i
+ * >Ec    172.16.1.1/32          10.0.4.0          10.0.4.0              -       -          50      -       i Or-ID: 172.16.1.1 C-LST: 172.16.1.3 
+ *  ec    172.16.1.1/32          10.0.5.0          10.0.5.0              -       -          50      -       i Or-ID: 172.16.1.1 C-LST: 172.16.1.4 
+ * >Ec    172.16.1.2/32          10.0.4.0          10.0.4.0              -       -          50      -       i Or-ID: 172.16.1.2 C-LST: 172.16.1.3 
+ *  ec    172.16.1.2/32          10.0.5.0          10.0.5.0              -       -          50      -       i Or-ID: 172.16.1.2 C-LST: 172.16.1.4 
+ * >      172.16.1.3/32          10.0.4.0          10.0.4.0              -       -          75      -       i
+ * >      172.16.1.4/32          10.0.5.0          10.0.5.0              -       -          75      -       i
+
+
+SPINE-2-1#show bgp summary 
+BGP summary information for VRF default
+Router identifier 172.16.1.12, local AS number 65000
+Neighbor          AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+-------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.0.1.2       65000 Established   IPv4 Unicast            Negotiated              1          1
+10.0.1.6       65000 Established   IPv4 Unicast            Negotiated              1          1
+10.0.4.0       65000 Established   IPv4 Unicast            Negotiated              3          3
+10.0.5.0       65000 Established   IPv4 Unicast            Negotiated              3          3
 ```
 </details>
 <details>
 <summary> LEAF-1 </summary>
 
 ```
+LEAF-1#show ip route bgp
 
+ B I      172.16.1.1/32 [200/0] via 10.0.1.1, Ethernet1
+ B I      172.16.1.2/32 [200/0] via 10.0.1.1, Ethernet1
+ B I      172.16.1.3/32 [200/0] via 10.0.1.3, Ethernet2
+ B I      172.16.1.4/32 [200/0] via 10.0.1.3, Ethernet2
+
+
+LEAF-1#show ip bgp neighbors received-routes 
+
+          Network                Peer              Next Hop              Metric  AIGP       LocPref Weight  Path
+          10.0.1.0/31            -                 -                     -       -          -       -       i
+          10.0.1.2/31            -                 -                     -       -          -       -       i
+ * >      172.16.0.3/32          -                 -                     -       -          -       -       i
+ * >      172.16.1.1/32          10.0.1.1          10.0.1.1              -       -          75      -       i Or-ID: 172.16.1.1 C-LST: 172.16.1.11 
+ *        172.16.1.1/32          10.0.1.3          10.0.1.3              -       -          50      -       i Or-ID: 172.16.1.1 C-LST: 172.16.1.12 172.16.1.3 
+ * >      172.16.1.2/32          10.0.1.1          10.0.1.1              -       -          75      -       i Or-ID: 172.16.1.2 C-LST: 172.16.1.11 
+ *        172.16.1.2/32          10.0.1.3          10.0.1.3              -       -          50      -       i Or-ID: 172.16.1.2 C-LST: 172.16.1.12 172.16.1.3 
+ * >      172.16.1.3/32          10.0.1.3          10.0.1.3              -       -          75      -       i Or-ID: 172.16.1.3 C-LST: 172.16.1.12 
+ *        172.16.1.3/32          10.0.1.1          10.0.1.1              -       -          50      -       i Or-ID: 172.16.1.3 C-LST: 172.16.1.11 172.16.1.1 
+ * >      172.16.1.4/32          10.0.1.3          10.0.1.3              -       -          75      -       i Or-ID: 172.16.1.4 C-LST: 172.16.1.12 
+ *        172.16.1.4/32          10.0.1.1          10.0.1.1              -       -          50      -       i Or-ID: 172.16.1.4 C-LST: 172.16.1.11 172.16.1.1 
+
+
+LEAF-1#show bgp summary
+BGP summary information for VRF default
+Router identifier 172.16.0.3, local AS number 65000
+Neighbor            AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+---------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.0.1.1         65000 Established   IPv4 Unicast            Negotiated              4          4
+10.0.1.3         65000 Established   IPv4 Unicast            Negotiated              4          4
+172.16.1.1       65000 Established   L2VPN EVPN              Negotiated              7          7
+172.16.1.2       65000 Established   L2VPN EVPN              Negotiated              7          7
+172.16.1.3       65000 Established   L2VPN EVPN              Negotiated              6          6
+172.16.1.4       65000 Established   L2VPN EVPN              Negotiated              6          6
 ```
 </details>
 <details>
 <summary> LEAF-2 </summary>
+
+```
+LEAF-2#show ip route bgp 
+
+ B I      172.16.1.1/32 [200/0] via 10.0.1.5, Ethernet1
+ B I      172.16.1.2/32 [200/0] via 10.0.1.5, Ethernet1
+ B I      172.16.1.3/32 [200/0] via 10.0.1.7, Ethernet2
+ B I      172.16.1.4/32 [200/0] via 10.0.1.7, Ethernet2
+
+
+LEAF-2#show ip bgp neighbors received-routes 
+
+          Network                Peer              Next Hop              Metric  AIGP       LocPref Weight  Path
+          10.0.1.4/31            -                 -                     -       -          -       -       i
+          10.0.1.6/31            -                 -                     -       -          -       -       i
+ * >      172.16.0.4/32          -                 -                     -       -          -       -       i
+ * >      172.16.1.1/32          10.0.1.5          10.0.1.5              -       -          75      -       i Or-ID: 172.16.1.1 C-LST: 172.16.1.11 
+ *        172.16.1.1/32          10.0.1.7          10.0.1.7              -       -          50      -       i Or-ID: 172.16.1.1 C-LST: 172.16.1.12 172.16.1.3 
+ * >      172.16.1.2/32          10.0.1.5          10.0.1.5              -       -          75      -       i Or-ID: 172.16.1.2 C-LST: 172.16.1.11 
+ *        172.16.1.2/32          10.0.1.7          10.0.1.7              -       -          50      -       i Or-ID: 172.16.1.2 C-LST: 172.16.1.12 172.16.1.3 
+ * >      172.16.1.3/32          10.0.1.7          10.0.1.7              -       -          75      -       i Or-ID: 172.16.1.3 C-LST: 172.16.1.12 
+ *        172.16.1.3/32          10.0.1.5          10.0.1.5              -       -          50      -       i Or-ID: 172.16.1.3 C-LST: 172.16.1.11 172.16.1.1 
+ * >      172.16.1.4/32          10.0.1.7          10.0.1.7              -       -          75      -       i Or-ID: 172.16.1.4 C-LST: 172.16.1.12 
+ *        172.16.1.4/32          10.0.1.5          10.0.1.5              -       -          50      -       i Or-ID: 172.16.1.4 C-LST: 172.16.1.11 172.16.1.1 
+
+
+LEAF-2#show bgp summary 
+BGP summary information for VRF default
+Router identifier 172.16.0.4, local AS number 65000
+Neighbor            AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+---------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.0.1.5         65000 Established   IPv4 Unicast            Negotiated              4          4
+10.0.1.7         65000 Established   IPv4 Unicast            Negotiated              4          4
+172.16.1.1       65000 Established   L2VPN EVPN              Negotiated              7          7
+172.16.1.2       65000 Established   L2VPN EVPN              Negotiated              7          7
+172.16.1.3       65000 Established   L2VPN EVPN              Negotiated              6          6
+172.16.1.4       65000 Established   L2VPN EVPN              Negotiated              6          6
+```
+</details>
+
+#### Проверка работы EVPN
+<details>
+<summary> BORDER-LEAF-1-1 </summary>
 
 ```
 

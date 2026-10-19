@@ -1,0 +1,39 @@
+!
+hostname FW-1-1
+!
+vlan 10,20
+!
+interface Port-Channel1
+   description TO_LEAF2_&_LEAF3
+   switchport mode trunk
+!
+interface Ethernet1
+   switchport mode trunk
+   channel-group 1 mode active
+!
+interface Ethernet2
+   switchport mode trunk
+   channel-group 1 mode active
+!
+interface Loopback0
+   ip address 8.8.8.8/32
+!
+interface Vlan10
+   no autostate
+   ip address 192.168.10.2/24
+   vrrp 10 priority-level 150
+   no vrrp 10 peer authentication
+   vrrp 10 ipv4 192.168.10.1
+!
+interface Vlan20
+   no autostate
+   ip address 192.168.20.2/24
+   vrrp 20 priority-level 150
+   no vrrp 20 peer authentication
+   vrrp 20 ipv4 192.168.20.1
+!
+ip routing
+!
+ip route 0.0.0.0/0 Null0
+!
+end

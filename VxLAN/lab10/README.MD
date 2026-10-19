@@ -1953,3 +1953,22 @@ LEAF-1#show bgp evpn route-type mac-ip 0000.5e00.010a
                                  172.16.1.1            -       100     0       i
 ```
 </details>
+<details>
+<summary> Состояние VPC-1 во время отказа </summary>
+
+```
+VPC_1> ping 192.168.20.203 -t
+
+84 bytes from 192.168.20.203 icmp_seq=2 ttl=63 time=185.101 ms
+84 bytes from 192.168.20.203 icmp_seq=3 ttl=63 time=372.024 ms
+84 bytes from 192.168.20.203 icmp_seq=4 ttl=63 time=219.281 ms
+84 bytes from 192.168.20.203 icmp_seq=5 ttl=63 time=284.921 ms
+84 bytes from 192.168.20.203 icmp_seq=6 ttl=63 time=134.678 ms
+192.168.20.203 icmp_seq=7 timeout
+84 bytes from 192.168.20.203 icmp_seq=8 ttl=63 time=171.507 ms
+84 bytes from 192.168.20.203 icmp_seq=9 ttl=63 time=212.617 ms
+84 bytes from 192.168.20.203 icmp_seq=10 ttl=63 time=291.039 ms
+84 bytes from 192.168.20.203 icmp_seq=11 ttl=63 time=171.578 ms
+^C
+```
+</details>

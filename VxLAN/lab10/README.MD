@@ -21,7 +21,7 @@
 - Участвуют только в L3-взаимодествии Underlay-сети (only bgp address-family ipv4) .
 - Являются RR для BORDER LEAF.
 #### FW
-- FW подключаются к паре BORDER LEAF в каждом ЦОД агрегированным L2-каналом (LACP). Между BORDER LEAF в одном ЦОД настроен MuLtihoming.
+- Подключаются к паре BORDER LEAF в каждом ЦОД агрегированным L2-каналом (LACP). Между BORDER LEAF в одном ЦОД настроен MuLtihoming.
 - Настроены VRRP-группы для шлюзов каждой сети (VLAN 10, VLAN 20). Схема работы: Active-Standby.
 - Включена маршрутизация между VLAN 10 и VLAN 20.
 

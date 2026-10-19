@@ -1306,7 +1306,47 @@ Neighbor            AS Session State AFI/SAFI                AFI/SAFI State   NL
 172.16.1.4       65000 Established   L2VPN EVPN              Negotiated              6          6
 ```
 </details>
+<details>
+<summary> Проверка доступности с LEAF-1 </summary>
 
+```
+LEAF-2#show ip route bgp 
+
+ B I      172.16.1.1/32 [200/0] via 10.0.1.5, Ethernet1
+ B I      172.16.1.2/32 [200/0] via 10.0.1.5, Ethernet1
+ B I      172.16.1.3/32 [200/0] via 10.0.1.7, Ethernet2
+ B I      172.16.1.4/32 [200/0] via 10.0.1.7, Ethernet2
+
+
+LEAF-2#show ip bgp neighbors received-routes 
+
+          Network                Peer              Next Hop              Metric  AIGP       LocPref Weight  Path
+          10.0.1.4/31            -                 -                     -       -          -       -       i
+          10.0.1.6/31            -                 -                     -       -          -       -       i
+ * >      172.16.0.4/32          -                 -                     -       -          -       -       i
+ * >      172.16.1.1/32          10.0.1.5          10.0.1.5              -       -          75      -       i Or-ID: 172.16.1.1 C-LST: 172.16.1.11 
+ *        172.16.1.1/32          10.0.1.7          10.0.1.7              -       -          50      -       i Or-ID: 172.16.1.1 C-LST: 172.16.1.12 172.16.1.3 
+ * >      172.16.1.2/32          10.0.1.5          10.0.1.5              -       -          75      -       i Or-ID: 172.16.1.2 C-LST: 172.16.1.11 
+ *        172.16.1.2/32          10.0.1.7          10.0.1.7              -       -          50      -       i Or-ID: 172.16.1.2 C-LST: 172.16.1.12 172.16.1.3 
+ * >      172.16.1.3/32          10.0.1.7          10.0.1.7              -       -          75      -       i Or-ID: 172.16.1.3 C-LST: 172.16.1.12 
+ *        172.16.1.3/32          10.0.1.5          10.0.1.5              -       -          50      -       i Or-ID: 172.16.1.3 C-LST: 172.16.1.11 172.16.1.1 
+ * >      172.16.1.4/32          10.0.1.7          10.0.1.7              -       -          75      -       i Or-ID: 172.16.1.4 C-LST: 172.16.1.12 
+ *        172.16.1.4/32          10.0.1.5          10.0.1.5              -       -          50      -       i Or-ID: 172.16.1.4 C-LST: 172.16.1.11 172.16.1.1 
+
+
+LEAF-2#show bgp summary 
+BGP summary information for VRF default
+Router identifier 172.16.0.4, local AS number 65000
+Neighbor            AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+---------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.0.1.5         65000 Established   IPv4 Unicast            Negotiated              4          4
+10.0.1.7         65000 Established   IPv4 Unicast            Negotiated              4          4
+172.16.1.1       65000 Established   L2VPN EVPN              Negotiated              7          7
+172.16.1.2       65000 Established   L2VPN EVPN              Negotiated              7          7
+172.16.1.3       65000 Established   L2VPN EVPN              Negotiated              6          6
+172.16.1.4       65000 Established   L2VPN EVPN              Negotiated              6          6
+```
+</details>
 
 #### Проверка работы EVPN
 <details>

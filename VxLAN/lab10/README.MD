@@ -737,6 +737,132 @@ end
 </details>
 
 <details>
+<summary> SPINE-1-1 </summary>
+
+```
+!
+service routing protocols model multi-agent
+!
+hostname SPINE-1-1
+!
+interface Ethernet1
+   description LEAF-1
+   mtu 9000
+   no switchport
+   ip address 10.0.1.1/31
+!
+interface Ethernet2
+   description BORDER-LEAF-1-1
+   mtu 9000
+   no switchport
+   ip address 10.0.2.1/31
+!
+interface Ethernet3
+   description BORDER-LEAF-1-2
+   mtu 9000
+   no switchport
+   ip address 10.0.3.1/31
+!
+interface Ethernet4
+   description LEAF-2
+   mtu 9000
+   no switchport
+   ip address 10.0.1.5/31
+!
+interface Loopback0
+   description Router-ID
+   ip address 172.16.1.11/32
+!
+ip routing
+!
+router bgp 65000
+   router-id 172.16.1.11
+   no bgp default ipv4-unicast
+   timers bgp 1 3
+   maximum-paths 2 ecmp 2
+   bgp listen range 10.0.0.0/16 peer-group LEAF remote-as 65000
+   neighbor BORDER_LEAF peer group
+   neighbor BORDER_LEAF remote-as 65000
+   neighbor BORDER_LEAF next-hop-self
+   neighbor BORDER_LEAF route-reflector-client
+   neighbor LEAF peer group
+   neighbor LEAF remote-as 65000
+   neighbor LEAF next-hop-self
+   neighbor 10.0.2.0 peer group BORDER_LEAF
+   neighbor 10.0.3.0 peer group BORDER_LEAF
+   !
+   address-family ipv4
+      neighbor BORDER_LEAF activate
+      neighbor LEAF activate
+!
+end
+```
+</details>
+
+<details>
+<summary> SPINE-2-1 </summary>
+
+```
+!
+service routing protocols model multi-agent
+!
+hostname SPINE-2-1
+!
+interface Ethernet1
+   description LEAF-1
+   mtu 9000
+   no switchport
+   ip address 10.0.1.3/31
+!
+interface Ethernet2
+   description BORDER-LEAF-2-1
+   mtu 9000
+   no switchport
+   ip address 10.0.4.1/31
+!
+interface Ethernet3
+   description BORDER-LEAF-2-2
+   mtu 9000
+   no switchport
+   ip address 10.0.5.1/31
+!
+interface Ethernet4
+   description LEAF-2
+   mtu 9000
+   no switchport
+   ip address 10.0.1.7/31
+!
+interface Loopback0
+   description Router-ID
+   ip address 172.16.1.12/32
+!
+ip routing
+!
+router bgp 65000
+   router-id 172.16.1.12
+   no bgp default ipv4-unicast
+   timers bgp 1 3
+   maximum-paths 2 ecmp 2
+   bgp listen range 10.0.0.0/16 peer-group LEAF remote-as 65000
+   neighbor BORDER_LEAF peer group
+   neighbor BORDER_LEAF remote-as 65000
+   neighbor BORDER_LEAF next-hop-self
+   neighbor BORDER_LEAF route-reflector-client
+   neighbor LEAF peer group
+   neighbor LEAF remote-as 65000
+   neighbor LEAF next-hop-self
+   neighbor 10.0.4.0 peer group BORDER_LEAF
+   neighbor 10.0.5.0 peer group BORDER_LEAF
+   !
+   address-family ipv4
+      neighbor BORDER_LEAF activate
+      neighbor LEAF activate
+!
+end
+```
+</details>
+
+<details>
 <summary> FW-1-1 </summary>
 
 ```

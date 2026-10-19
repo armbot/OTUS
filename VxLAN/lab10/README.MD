@@ -1312,41 +1312,441 @@ Neighbor            AS Session State AFI/SAFI                AFI/SAFI State   NL
 <summary> BORDER-LEAF-1-1 </summary>
 
 ```
+BORDER-LEAF-1-1#show bgp evpn 
+BGP routing table information for VRF default
+Router identifier 172.16.1.1, local AS number 65000
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
 
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 172.16.1.1:10 auto-discovery 0 0000:0000:0000:0000:0001
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.1:20 auto-discovery 0 0000:0000:0000:0000:0001
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.2:10 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.2:20 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.1:1 auto-discovery 0000:0000:0000:0000:0001
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.2:1 auto-discovery 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:10 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.3:20 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:10 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.4:20 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.3:1 auto-discovery 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:1 auto-discovery 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.1:10 mac-ip 0000.5e00.010a
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.2:20 mac-ip 0000.5e00.0114
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.0.4:20 mac-ip 0050.7966.6808
+                                 172.16.0.4            -       100     0       i
+ * >      RD: 172.16.1.1:20 mac-ip 5000.00af.d3f6
+                                 -                     -       -       0       i
+ * >      RD: 172.16.0.3:10 imet 172.16.0.3
+                                 172.16.0.3            -       100     0       i
+ * >      RD: 172.16.0.4:10 imet 172.16.0.4
+                                 172.16.0.4            -       100     0       i
+ * >      RD: 172.16.0.4:20 imet 172.16.0.4
+                                 172.16.0.4            -       100     0       i
+ * >      RD: 172.16.1.1:10 imet 172.16.1.1
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.1:20 imet 172.16.1.1
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.2:10 imet 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.2:20 imet 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:10 imet 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.3:20 imet 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:10 imet 172.16.1.4
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.4:20 imet 172.16.1.4
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.1:1 ethernet-segment 0000:0000:0000:0000:0001 172.16.1.1
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.2:1 ethernet-segment 0000:0000:0000:0000:0001 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:1 ethernet-segment 0000:0000:0000:0000:0002 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:1 ethernet-segment 0000:0000:0000:0000:0002 172.16.1.4
+                                 172.16.1.4            -       100     0       i
 ```
 </details>
 <details>
 <summary> BORDER-LEAF-1-2 </summary>
 
 ```
+BORDER-LEAF-1-2#show bgp evpn 
+BGP routing table information for VRF default
+Router identifier 172.16.1.2, local AS number 65000
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
 
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 172.16.1.1:10 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.1:20 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:10 auto-discovery 0 0000:0000:0000:0000:0001
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.2:20 auto-discovery 0 0000:0000:0000:0000:0001
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.1:1 auto-discovery 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:1 auto-discovery 0000:0000:0000:0000:0001
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.3:10 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.3:20 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:10 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.4:20 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.3:1 auto-discovery 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:1 auto-discovery 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.1:10 mac-ip 0000.5e00.010a
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:20 mac-ip 0000.5e00.0114
+                                 -                     -       -       0       i
+ * >      RD: 172.16.0.3:10 imet 172.16.0.3
+                                 172.16.0.3            -       100     0       i
+ * >      RD: 172.16.0.4:10 imet 172.16.0.4
+                                 172.16.0.4            -       100     0       i
+ * >      RD: 172.16.0.4:20 imet 172.16.0.4
+                                 172.16.0.4            -       100     0       i
+ * >      RD: 172.16.1.1:10 imet 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.1:20 imet 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:10 imet 172.16.1.2
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.2:20 imet 172.16.1.2
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.3:10 imet 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.3:20 imet 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:10 imet 172.16.1.4
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.4:20 imet 172.16.1.4
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.1:1 ethernet-segment 0000:0000:0000:0000:0001 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:1 ethernet-segment 0000:0000:0000:0000:0001 172.16.1.2
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.3:1 ethernet-segment 0000:0000:0000:0000:0002 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:1 ethernet-segment 0000:0000:0000:0000:0002 172.16.1.4
+                                 172.16.1.4            -       100     0       i
 ```
 </details>
 <details>
 <summary> BORDER-LEAF-2-1 </summary>
 
 ```
+BORDER-LEAF-2-1#show bgp evpn 
+BGP routing table information for VRF default
+Router identifier 172.16.1.3, local AS number 65000
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
 
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 172.16.1.1:10 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.1:20 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:10 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.2:20 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.1:1 auto-discovery 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:1 auto-discovery 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:10 auto-discovery 0 0000:0000:0000:0000:0002
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.3:20 auto-discovery 0 0000:0000:0000:0000:0002
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.4:10 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.4:20 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.3:1 auto-discovery 0000:0000:0000:0000:0002
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.4:1 auto-discovery 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.1:10 mac-ip 0000.5e00.010a
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:20 mac-ip 0000.5e00.0114
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.0.3:10 imet 172.16.0.3
+                                 172.16.0.3            -       100     0       i
+ * >      RD: 172.16.0.4:10 imet 172.16.0.4
+                                 172.16.0.4            -       100     0       i
+ * >      RD: 172.16.0.4:20 imet 172.16.0.4
+                                 172.16.0.4            -       100     0       i
+ * >      RD: 172.16.1.1:10 imet 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.1:20 imet 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:10 imet 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.2:20 imet 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:10 imet 172.16.1.3
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.3:20 imet 172.16.1.3
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.4:10 imet 172.16.1.4
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.4:20 imet 172.16.1.4
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.1:1 ethernet-segment 0000:0000:0000:0000:0001 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:1 ethernet-segment 0000:0000:0000:0000:0001 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:1 ethernet-segment 0000:0000:0000:0000:0002 172.16.1.3
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.4:1 ethernet-segment 0000:0000:0000:0000:0002 172.16.1.4
+                                 172.16.1.4            -       100     0       i
 ```
 </details>
 <details>
 <summary> BORDER-LEAF-2-2 </summary>
 
 ```
+BORDER-LEAF-2-2#show bgp evpn 
+BGP routing table information for VRF default
+Router identifier 172.16.1.4, local AS number 65000
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
 
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 172.16.1.1:10 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.1:20 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:10 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.2:20 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.1:1 auto-discovery 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:1 auto-discovery 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:10 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.3:20 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:10 auto-discovery 0 0000:0000:0000:0000:0002
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.4:20 auto-discovery 0 0000:0000:0000:0000:0002
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.3:1 auto-discovery 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:1 auto-discovery 0000:0000:0000:0000:0002
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.1:10 mac-ip 0000.5e00.010a
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:20 mac-ip 0000.5e00.0114
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.0.3:10 imet 172.16.0.3
+                                 172.16.0.3            -       100     0       i
+ * >      RD: 172.16.0.4:10 imet 172.16.0.4
+                                 172.16.0.4            -       100     0       i
+ * >      RD: 172.16.0.4:20 imet 172.16.0.4
+                                 172.16.0.4            -       100     0       i
+ * >      RD: 172.16.1.1:10 imet 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.1:20 imet 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:10 imet 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.2:20 imet 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:10 imet 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.3:20 imet 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:10 imet 172.16.1.4
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.4:20 imet 172.16.1.4
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.1:1 ethernet-segment 0000:0000:0000:0000:0001 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:1 ethernet-segment 0000:0000:0000:0000:0001 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:1 ethernet-segment 0000:0000:0000:0000:0002 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:1 ethernet-segment 0000:0000:0000:0000:0002 172.16.1.4
+                                 -                     -       -       0       i
 ```
 </details>
 <details>
 <summary> LEAF-1 </summary>
 
 ```
+LEAF-1#show bgp evpn 
+BGP routing table information for VRF default
+Router identifier 172.16.0.3, local AS number 65000
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
 
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 172.16.1.1:10 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.1:20 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:10 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.2:20 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.1:1 auto-discovery 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:1 auto-discovery 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:10 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.3:20 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:10 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.4:20 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.3:1 auto-discovery 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:1 auto-discovery 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.1:10 mac-ip 0000.5e00.010a
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:20 mac-ip 0000.5e00.0114
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.1:20 mac-ip 5000.00af.d3f6
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.0.3:10 imet 172.16.0.3
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.1:10 imet 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.1:20 imet 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:10 imet 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.2:20 imet 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:10 imet 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.3:20 imet 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:10 imet 172.16.1.4
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.4:20 imet 172.16.1.4
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.1:1 ethernet-segment 0000:0000:0000:0000:0001 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:1 ethernet-segment 0000:0000:0000:0000:0001 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:1 ethernet-segment 0000:0000:0000:0000:0002 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:1 ethernet-segment 0000:0000:0000:0000:0002 172.16.1.4
+                                 172.16.1.4            -       100     0       i
 ```
 </details>
 <details>
 <summary> LEAF-1 </summary>
 
 ```
+LEAF-2#show bgp evpn 
+BGP routing table information for VRF default
+Router identifier 172.16.0.4, local AS number 65000
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
 
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 172.16.1.1:10 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.1:20 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:10 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.2:20 auto-discovery 0 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.1:1 auto-discovery 0000:0000:0000:0000:0001
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:1 auto-discovery 0000:0000:0000:0000:0001
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:10 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.3:20 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:10 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.4:20 auto-discovery 0 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.3:1 auto-discovery 0000:0000:0000:0000:0002
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:1 auto-discovery 0000:0000:0000:0000:0002
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.1:10 mac-ip 0000.5e00.010a
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:20 mac-ip 0000.5e00.0114
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.0.4:20 mac-ip 0050.7966.6808
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.1:20 mac-ip 5000.00af.d3f6
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.0.4:10 imet 172.16.0.4
+                                 -                     -       -       0       i
+ * >      RD: 172.16.0.4:20 imet 172.16.0.4
+                                 -                     -       -       0       i
+ * >      RD: 172.16.1.1:10 imet 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.1:20 imet 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:10 imet 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.2:20 imet 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:10 imet 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.3:20 imet 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:10 imet 172.16.1.4
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.4:20 imet 172.16.1.4
+                                 172.16.1.4            -       100     0       i
+ * >      RD: 172.16.1.1:1 ethernet-segment 0000:0000:0000:0000:0001 172.16.1.1
+                                 172.16.1.1            -       100     0       i
+ * >      RD: 172.16.1.2:1 ethernet-segment 0000:0000:0000:0000:0001 172.16.1.2
+                                 172.16.1.2            -       100     0       i
+ * >      RD: 172.16.1.3:1 ethernet-segment 0000:0000:0000:0000:0002 172.16.1.3
+                                 172.16.1.3            -       100     0       i
+ * >      RD: 172.16.1.4:1 ethernet-segment 0000:0000:0000:0000:0002 172.16.1.4
+                                 172.16.1.4            -       100     0       i
 ```
 </details>

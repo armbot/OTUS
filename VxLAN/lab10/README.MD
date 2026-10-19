@@ -1855,14 +1855,25 @@ host (192.168.10.102) not reachable
 <summary> LEAF-1 </summary>
 
 ```
+LEAF-1#show bgp evpn route-type mac-ip 0000.5e00.010a
 
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 172.16.1.1:10 mac-ip 0000.5e00.010a
+                                 172.16.1.1            -       100     0       i
 ```
 </details>
 <details>
 <summary> BORDER-LEAF-1-1 </summary>
 
 ```
+BORDER-LEAF-1-1#show mac address-table 
+          Mac Address Table
+------------------------------------------------------------------
 
+Vlan    Mac Address       Type        Ports      Moves   Last Move
+----    -----------       ----        -----      -----   ---------
+  10    0000.5e00.010a    DYNAMIC     Po1        1       21:44:54 ago
+  10    0050.7966.6806    DYNAMIC     Vx1        1       0:04:33 ago
 ```
 </details>
 

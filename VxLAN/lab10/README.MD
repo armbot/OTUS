@@ -952,7 +952,7 @@ end
 </details>
 
 ### Проверка работы
-#### Проверка работы Underlay-сети
+#### Проверка работы Underlay-сети (iBGP)
 <details>
 <summary> BORDER-LEAF-1-1 </summary>
 
@@ -1310,6 +1310,41 @@ Neighbor            AS Session State AFI/SAFI                AFI/SAFI State   NL
 #### Проверка работы EVPN
 <details>
 <summary> BORDER-LEAF-1-1 </summary>
+
+```
+
+```
+</details>
+<details>
+<summary> BORDER-LEAF-1-2 </summary>
+
+```
+
+```
+</details>
+<details>
+<summary> BORDER-LEAF-2-1 </summary>
+
+```
+
+```
+</details>
+<details>
+<summary> BORDER-LEAF-2-2 </summary>
+
+```
+
+```
+</details>
+<details>
+<summary> LEAF-1 </summary>
+
+```
+
+```
+</details>
+<details>
+<summary> LEAF-1 </summary>
 
 ```
 

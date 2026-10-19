@@ -1306,8 +1306,10 @@ Neighbor            AS Session State AFI/SAFI                AFI/SAFI State   NL
 172.16.1.4       65000 Established   L2VPN EVPN              Negotiated              6          6
 ```
 </details>
+
+###### Проверка доступности
 <details>
-<summary> Проверка доступности с LEAF-1 </summary>
+<summary> LEAF-1 </summary>
 
 ```
 LEAF-1#ping 172.16.1.1 source loopback 0

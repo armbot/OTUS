@@ -1877,20 +1877,79 @@ Vlan    Mac Address       Type        Ports      Moves   Last Move
 ```
 </details>
 
-### Проверка доступности
-#### Проверка доступности (iBGP)
-<details>
-<summary> BORDER-LEAF-1-1 </summary>
 
-```
-
-```
 ### Проверка отказоустойчивости
-#### Проверка работы Underlay-сети (iBGP)
+#### Отказ SPINE
 <details>
-<summary> BORDER-LEAF-1-1 </summary>
+<summary> Исходное состояние LEAF-1 </summary>
 
 ```
+LEAF-1#show ip route bgp
 
+ B I      172.16.1.1/32 [200/0] via 10.0.1.1, Ethernet1
+ B I      172.16.1.2/32 [200/0] via 10.0.1.1, Ethernet1
+ B I      172.16.1.3/32 [200/0] via 10.0.1.3, Ethernet2
+ B I      172.16.1.4/32 [200/0] via 10.0.1.3, Ethernet2
+
+
+LEAF-1#show ip bgp 172.16.1.1
+BGP routing table information for VRF default
+Router identifier 172.16.0.3, local AS number 65000
+BGP routing table entry for 172.16.1.1/32
+ Paths: 2 available
+  Local
+    10.0.1.1 from 10.0.1.1 (172.16.1.11)
+      Origin IGP, metric 0, localpref 75, IGP metric 0, weight 0, tag 0
+      Received 21:49:16 ago, valid, internal, best
+      Originator: 172.16.1.1, Cluster list: 172.16.1.11 
+      Rx SAFI: Unicast
+  Local
+    10.0.1.3 from 10.0.1.3 (172.16.1.12)
+      Origin IGP, metric 0, localpref 50, IGP metric 0, weight 0, tag 0
+      Received 21:49:17 ago, valid, internal
+      Originator: 172.16.1.1, Cluster list: 172.16.1.12 172.16.1.3 
+      Rx SAFI: Unicast
+
+
+LEAF-1#show bgp evpn route-type mac-ip 0000.5e00.010a
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 172.16.1.1:10 mac-ip 0000.5e00.010a
+                                 172.16.1.1            -       100     0       i
+
+
+```
+</details>
+<details>
+<summary> Состояние LEAF-1 после отказа основного SPINE </summary>
+
+```
+LEAF-1#show ip route bgp
+
+
+ B I      172.16.1.1/32 [200/0] via 10.0.1.3, Ethernet2
+ B I      172.16.1.2/32 [200/0] via 10.0.1.3, Ethernet2
+ B I      172.16.1.3/32 [200/0] via 10.0.1.3, Ethernet2
+ B I      172.16.1.4/32 [200/0] via 10.0.1.3, Ethernet2
+
+
+LEAF-1#show ip bgp 172.16.1.1
+BGP routing table information for VRF default
+Router identifier 172.16.0.3, local AS number 65000
+BGP routing table entry for 172.16.1.1/32
+ Paths: 1 available
+  Local
+    10.0.1.3 from 10.0.1.3 (172.16.1.12)
+      Origin IGP, metric 0, localpref 50, IGP metric 0, weight 0, tag 0
+      Received 21:50:41 ago, valid, internal, best
+      Originator: 172.16.1.1, Cluster list: 172.16.1.12 172.16.1.3 
+      Rx SAFI: Unicast
+
+
+LEAF-1#show bgp evpn route-type mac-ip 0000.5e00.010a
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 172.16.1.1:10 mac-ip 0000.5e00.010a
+                                 172.16.1.1            -       100     0       i
 ```
 </details>
